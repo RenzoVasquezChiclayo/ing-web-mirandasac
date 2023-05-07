@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Nuevo Empleado</title>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+        <form th:action="@{'/sistema/agregar-empleado'}" method="post">
+            <div class="row">
+                <div class="col-6">
+                    <label for="">Nombres</label>
+                    <input type="text" class="form-control" th:field="${empleado.nombres}" name="emp_nombres" id="emp_nombres">
+                </div>
+                <div class="col-6">
+                    <label for="">Apellidos</label>
+                    <input type="text" class="form-control" th:field="${empleado.apellidos}" name="emp_apellidos" id="emp_apellidos">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <label for="">DNI</label>
+                    <input type="text" class="form-control" th:field="${empleado.dni}" name="emp_dni" id="emp_dni">
+                </div>
+                <div class="col-7">
+                    <label for="">Correo</label>
+                    <input type="text" class="form-control" th:field="${empleado.correo}" name="emp_correo" id="emp_correo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <label for="">Telefono</label>
+                    <input type="text" class="form-control" th:field="${empleado.telefono}" name="emp_telefono" id="emp_telefono">
+                </div>
+                <div class="col-7">
+                    <label for="">Direccion</label>
+                    <input type="text" class="form-control" th:field="${empleado.direccion}" name="emp_direccion" id="emp_direccion">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <button class="btn btn-success">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

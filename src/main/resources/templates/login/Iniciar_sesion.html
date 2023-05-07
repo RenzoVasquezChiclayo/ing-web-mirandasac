@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link type="text/css" rel="stylesheet" href="/css/login.css"/>
+</head>
+<body>
+    <div class="contenedor-login">
+        <div class="items-login">
+            <form th:action="@{/login}" method="post">
+                <div class="titulos-login">
+                    <h2>Miranda S.A.C</h2>
+                    <span>Poner imagen de Miranda</span>
+                </div>
+                <div>
+                    <div th:if=${param.error}>
+						<div class="alert alert-danger">Usuario o contraseña
+							inválidos</div>
+					</div>
+
+					<div th:if=${param.logout}>
+						<div class="alert alert-info">Ha cerrado sesión exitosamente
+						</div>
+					</div>
+                    <div class="input-icon">
+                        <img src="/img/login/usuario-icon.png" alt="">
+                        <input type="text" name="username" placeholder="Usuario" required>
+                    </div>
+                    <div class="input-icon">
+                        <img src="/img/login/password-icon.png" alt="">
+                        <input type="password" name="password" placeholder="Contrasena" required>
+                    </div>
+                    
+                </div>
+                <div class="boton">
+                    <button class="button-input">INGRESAR</button>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</body>
+</html>
