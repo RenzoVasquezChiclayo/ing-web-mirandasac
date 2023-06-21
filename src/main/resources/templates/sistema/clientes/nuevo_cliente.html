@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Nuevo Cliente</title>
+    <style>
+        div .row{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+        <div class="contenido-clientes">
+            <div class="row">
+                <div class="col-10">
+                    <form th:action="@{'/sistema/agregar-cliente'}" method="post">
+                        <h2>Datos Personales</h2>
+                        <hr>
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="col-5">
+                                    <label for="">DNI o RUC</label>
+                                    <input type="text" class="form-control" th:field="${persona.RUCDNI}" name="per_ruc_dni" id="per_ruc_dni">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="">Nombres</label>
+                                <input type="text" class="form-control" th:field="${persona.nombres}" name="per_nombres" id="per_nombres">
+                            </div>
+                            <div class="col-6">
+                                <label for="">Apellidos</label>
+                                <input type="text" class="form-control" th:field="${persona.apellidos}" name="per_apellidos" id="per_apellidos">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="">Direccion</label>
+                                <input type="text" class="form-control" th:field="${persona.domicilio_fiscal}" name="per_domicilio_fiscal" id="per_domicilio_fiscal">
+                            </div>
+                            <div class="col-4">
+                                <label for="">Pais</label>
+                                <input type="text" class="form-control" th:field="${persona.pais}" name="per_pais" id="per_pais">
+                            </div>
+                            <div class="col-2">
+                                <label for="">Ubigeo</label>
+                                <input type="text" class="form-control" th:field="${persona.ubigeo}" name="per_ubigeo" id="per_ubigeo">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Distrito</label>
+                                <input type="text" class="form-control" th:field="${persona.distrito}" name="per_distrito" id="per_distrito">
+                            </div>
+                            <div class="col-4">
+                                <label for="">Provincia</label>
+                                <input type="text" class="form-control" th:field="${persona.provincia}" name="per_provincia" id="per_provincia">
+                            </div>
+                            <div class="col-5">
+                                <label for="">Departamento</label>
+                                <input type="text" class="form-control" th:field="${persona.departamento}" name="per_departamento" id="per_departamento">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="">Telefono</label>
+                                <input type="text" class="form-control" th:field="${persona.telefono}" name="per_telefono" id="per_telefono">
+                            </div>
+                            <div class="col-6">
+                                <label for="">Contacto</label>
+                                <input type="text" class="form-control" th:field="${persona.contacto}" name="per_contacto" id="per_contacto">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="">Correo</label>
+                                <input type="text" class="form-control" th:field="${persona.correo}" name="per_correo" id="per_correo">
+                            </div>
+                        </div>
+                        <hr>
+                        <h2>Datos del cliente</h2>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="">Descripcion</label>
+                                    </div>
+                                    <div class="col-7">
+                                        <textarea class="form-control" th:field="${cliente.descripcion}" name="cli_observaciones" id="cli_observaciones" cols="30" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="">Observaciones</label>
+                                    </div>
+                                    <div class="col-7">
+                                        <textarea class="form-control" th:field="${cliente.observaciones}" name="cli_observaciones" id="cli_observaciones" cols="30" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="">Tipo Cliente</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <select class="form-control" th:field="${cliente.tipo_clienteId}" name="cli_tipo_cliente" id="cli_tipo_cliente">
+                                            <option th:each="t_c : ${tipo_cliente}" th:text="${t_c.descripcion}" th:value="${t_c.id_tipo_cliente}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-success" >Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

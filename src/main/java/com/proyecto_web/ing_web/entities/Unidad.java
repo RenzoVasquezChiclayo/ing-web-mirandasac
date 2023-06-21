@@ -1,5 +1,4 @@
 package com.proyecto_web.ing_web.entities;
-
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -11,44 +10,38 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "empleado")
-public class Empleado {
-
+@Table(name="unidad")
+public class Unidad {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "unidad", nullable = false, unique = true)
+    private String unidad;
+
     @Column(name = "descripcion")
     private String descripcion;
-
-    @Column(name = "sueldo", nullable = false)
-    private Double sueldo;
 
     @Column(name = "createdAt", nullable = false)
     private Date createdAt;
 
     @Column(name = "updatedAt", nullable = false)
     private Date updatedAt;
-    
-    @ManyToOne
-    private Cargos cargoId;
 
     @ManyToOne
-    private Persona personaId;
+    private Empleado empleadoId;
 
-    public Empleado() {
+    public Unidad() {
     }
 
-    public Empleado(Integer id, String descripcion, Double sueldo, Date createdAt, Date updatedAt, Cargos cargoId,
-            Persona personaId) {
+    public Unidad(Integer id, String unidad, String descripcion, Date createdAt, Date updatedAt, Empleado empleadoId) {
         this.id = id;
+        this.unidad = unidad;
         this.descripcion = descripcion;
-        this.sueldo = sueldo;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.cargoId = cargoId;
-        this.personaId = personaId;
+        this.empleadoId = empleadoId;
     }
 
     public Integer getId() {
@@ -59,20 +52,20 @@ public class Empleado {
         this.id = id;
     }
 
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Double getSueldo() {
-        return sueldo;
-    }
-
-    public void setSueldo(Double sueldo) {
-        this.sueldo = sueldo;
     }
 
     public Date getCreatedAt() {
@@ -91,22 +84,14 @@ public class Empleado {
         this.updatedAt = updatedAt;
     }
 
-    public Cargos getCargoId() {
-        return cargoId;
+    public Empleado getEmpleadoId() {
+        return empleadoId;
     }
 
-    public void setCargoId(Cargos cargoId) {
-        this.cargoId = cargoId;
-    }
-
-    public Persona getPersonaId() {
-        return personaId;
-    }
-
-    public void setPersonaId(Persona personaId) {
-        this.personaId = personaId;
+    public void setEmpleadoId(Empleado empleadoId) {
+        this.empleadoId = empleadoId;
     }
 
     
-    
+
 }

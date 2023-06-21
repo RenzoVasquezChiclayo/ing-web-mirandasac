@@ -1,6 +1,4 @@
 package com.proyecto_web.ing_web.entities;
-
-
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -12,22 +10,24 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "cliente")
-public class Cliente {
-
+@Table(name = "producto")
+public class Producto {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    private TipoCliente tipo_clienteId;
+    @Column(name = "codigo", nullable = false, unique = true)
+    private String codigo;
 
-    @Column(name = "observaciones")
-    private String observaciones;
-
-    @Column(name = "descripcion", nullable = false)
+    @Column(name = "descripcion")
     private String descripcion;
 
+    @Column(name = "producto", nullable = false, unique = true)
+    private String producto;
+
+    @Column(name = "estado", nullable = false)
+    private Boolean estado;
 
     @Column(name = "createdAt", nullable = false)
     private Date createdAt;
@@ -39,22 +39,22 @@ public class Cliente {
     private Empleado empleadoId;
 
     @ManyToOne
-    private Persona personaId;
+    private Categoria categoriaId;
 
-    public Cliente() {
-        super();
+    public Producto() {
     }
 
-    public Cliente(Integer id, TipoCliente tipo_clienteId, String observaciones, String descripcion,
-            Date createdAt, Date updatedAt, Empleado empleadoId, Persona personaId) {
+    public Producto(Integer id, String codigo, String descripcion, String producto, Boolean estado, Date createdAt,
+            Date updatedAt, Empleado empleadoId, Categoria categoriaId) {
         this.id = id;
-        this.tipo_clienteId = tipo_clienteId;
-        this.observaciones = observaciones;
+        this.codigo = codigo;
         this.descripcion = descripcion;
+        this.producto = producto;
+        this.estado = estado;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.empleadoId = empleadoId;
-        this.personaId = personaId;
+        this.categoriaId = categoriaId;
     }
 
     public Integer getId() {
@@ -65,20 +65,12 @@ public class Cliente {
         this.id = id;
     }
 
-    public TipoCliente getTipo_clienteId() {
-        return tipo_clienteId;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setTipo_clienteId(TipoCliente tipo_clienteId) {
-        this.tipo_clienteId = tipo_clienteId;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getDescripcion() {
@@ -87,6 +79,22 @@ public class Cliente {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getProducto() {
+        return producto;
+    }
+
+    public void setProducto(String producto) {
+        this.producto = producto;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     public Date getCreatedAt() {
@@ -113,16 +121,13 @@ public class Cliente {
         this.empleadoId = empleadoId;
     }
 
-    public Persona getPersonaId() {
-        return personaId;
+    public Categoria getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setPersonaId(Persona personaId) {
-        this.personaId = personaId;
+    public void setCategoriaId(Categoria categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
-    
-    
-    
     
 }

@@ -11,43 +11,50 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "empleado")
-public class Empleado {
-
+@Table(name = "conductor")
+public class Conductor {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "observaciones")
+    private String observaciones;
+
     @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name = "sueldo", nullable = false)
-    private Double sueldo;
+    @Column(name = "licencia", nullable = false, unique = true)
+    private String licencia;
+
+    @Column(name = "fecha_vencimiento", nullable = false)
+    private Date fecha_vencimiento;
 
     @Column(name = "createdAt", nullable = false)
     private Date createdAt;
 
     @Column(name = "updatedAt", nullable = false)
     private Date updatedAt;
-    
+
     @ManyToOne
-    private Cargos cargoId;
+    private Empleado empleadoId;
 
     @ManyToOne
     private Persona personaId;
 
-    public Empleado() {
+    public Conductor() {
     }
 
-    public Empleado(Integer id, String descripcion, Double sueldo, Date createdAt, Date updatedAt, Cargos cargoId,
-            Persona personaId) {
+    public Conductor(Integer id, String observaciones, String descripcion, String licencia, Date fecha_vencimiento,
+            Date createdAt, Date updatedAt, Empleado empleadoId, Persona personaId) {
         this.id = id;
+        this.observaciones = observaciones;
         this.descripcion = descripcion;
-        this.sueldo = sueldo;
+        this.licencia = licencia;
+        this.fecha_vencimiento = fecha_vencimiento;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.cargoId = cargoId;
+        this.empleadoId = empleadoId;
         this.personaId = personaId;
     }
 
@@ -59,6 +66,14 @@ public class Empleado {
         this.id = id;
     }
 
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -67,12 +82,20 @@ public class Empleado {
         this.descripcion = descripcion;
     }
 
-    public Double getSueldo() {
-        return sueldo;
+    public String getLicencia() {
+        return licencia;
     }
 
-    public void setSueldo(Double sueldo) {
-        this.sueldo = sueldo;
+    public void setLicencia(String licencia) {
+        this.licencia = licencia;
+    }
+
+    public Date getFecha_vencimiento() {
+        return fecha_vencimiento;
+    }
+
+    public void setFecha_vencimiento(Date fecha_vencimiento) {
+        this.fecha_vencimiento = fecha_vencimiento;
     }
 
     public Date getCreatedAt() {
@@ -91,12 +114,12 @@ public class Empleado {
         this.updatedAt = updatedAt;
     }
 
-    public Cargos getCargoId() {
-        return cargoId;
+    public Empleado getEmpleadoId() {
+        return empleadoId;
     }
 
-    public void setCargoId(Cargos cargoId) {
-        this.cargoId = cargoId;
+    public void setEmpleadoId(Empleado empleadoId) {
+        this.empleadoId = empleadoId;
     }
 
     public Persona getPersonaId() {
@@ -107,6 +130,5 @@ public class Empleado {
         this.personaId = personaId;
     }
 
-    
     
 }

@@ -11,44 +11,43 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "empleado")
-public class Empleado {
-
+@Table(name="envio_productos")
+public class envio_productos {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "cantidad", nullable = false)
+    private Integer cantidad;
 
-    @Column(name = "sueldo", nullable = false)
-    private Double sueldo;
+    @Column(name = "precio", nullable = false)
+    private Double precio;
 
     @Column(name = "createdAt", nullable = false)
     private Date createdAt;
 
     @Column(name = "updatedAt", nullable = false)
     private Date updatedAt;
-    
-    @ManyToOne
-    private Cargos cargoId;
 
     @ManyToOne
-    private Persona personaId;
+    private Envio envioId;
 
-    public Empleado() {
+    @ManyToOne
+    private Producto productoId;
+
+    public envio_productos() {
     }
 
-    public Empleado(Integer id, String descripcion, Double sueldo, Date createdAt, Date updatedAt, Cargos cargoId,
-            Persona personaId) {
+    public envio_productos(Integer id, Integer cantidad, Double precio, Date createdAt, Date updatedAt, Envio envioId,
+            Producto productoId) {
         this.id = id;
-        this.descripcion = descripcion;
-        this.sueldo = sueldo;
+        this.cantidad = cantidad;
+        this.precio = precio;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.cargoId = cargoId;
-        this.personaId = personaId;
+        this.envioId = envioId;
+        this.productoId = productoId;
     }
 
     public Integer getId() {
@@ -59,20 +58,20 @@ public class Empleado {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public Integer getCantidad() {
+        return cantidad;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
-    public Double getSueldo() {
-        return sueldo;
+    public Double getPrecio() {
+        return precio;
     }
 
-    public void setSueldo(Double sueldo) {
-        this.sueldo = sueldo;
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
 
     public Date getCreatedAt() {
@@ -91,22 +90,21 @@ public class Empleado {
         this.updatedAt = updatedAt;
     }
 
-    public Cargos getCargoId() {
-        return cargoId;
+    public Envio getEnvioId() {
+        return envioId;
     }
 
-    public void setCargoId(Cargos cargoId) {
-        this.cargoId = cargoId;
+    public void setEnvioId(Envio envioId) {
+        this.envioId = envioId;
     }
 
-    public Persona getPersonaId() {
-        return personaId;
+    public Producto getProductoId() {
+        return productoId;
     }
 
-    public void setPersonaId(Persona personaId) {
-        this.personaId = personaId;
+    public void setProductoId(Producto productoId) {
+        this.productoId = productoId;
     }
 
-    
     
 }

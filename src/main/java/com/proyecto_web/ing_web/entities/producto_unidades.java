@@ -1,5 +1,4 @@
 package com.proyecto_web.ing_web.entities;
-
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -11,9 +10,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "empleado")
-public class Empleado {
-
+@Table(name = "producto_unidades")
+public class producto_unidades {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,33 +20,29 @@ public class Empleado {
     @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name = "sueldo", nullable = false)
-    private Double sueldo;
-
     @Column(name = "createdAt", nullable = false)
     private Date createdAt;
 
     @Column(name = "updatedAt", nullable = false)
     private Date updatedAt;
-    
-    @ManyToOne
-    private Cargos cargoId;
 
     @ManyToOne
-    private Persona personaId;
+    private Producto productoId;
 
-    public Empleado() {
+    @ManyToOne
+    private Unidad unidadId;
+
+    public producto_unidades() {
     }
 
-    public Empleado(Integer id, String descripcion, Double sueldo, Date createdAt, Date updatedAt, Cargos cargoId,
-            Persona personaId) {
+    public producto_unidades(Integer id, String descripcion, Date createdAt, Date updatedAt, Producto productoId,
+            Unidad unidadId) {
         this.id = id;
         this.descripcion = descripcion;
-        this.sueldo = sueldo;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.cargoId = cargoId;
-        this.personaId = personaId;
+        this.productoId = productoId;
+        this.unidadId = unidadId;
     }
 
     public Integer getId() {
@@ -67,14 +61,6 @@ public class Empleado {
         this.descripcion = descripcion;
     }
 
-    public Double getSueldo() {
-        return sueldo;
-    }
-
-    public void setSueldo(Double sueldo) {
-        this.sueldo = sueldo;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -91,22 +77,21 @@ public class Empleado {
         this.updatedAt = updatedAt;
     }
 
-    public Cargos getCargoId() {
-        return cargoId;
+    public Producto getProductoId() {
+        return productoId;
     }
 
-    public void setCargoId(Cargos cargoId) {
-        this.cargoId = cargoId;
+    public void setProductoId(Producto productoId) {
+        this.productoId = productoId;
     }
 
-    public Persona getPersonaId() {
-        return personaId;
+    public Unidad getUnidadId() {
+        return unidadId;
     }
 
-    public void setPersonaId(Persona personaId) {
-        this.personaId = personaId;
+    public void setUnidadId(Unidad unidadId) {
+        this.unidadId = unidadId;
     }
 
-    
     
 }

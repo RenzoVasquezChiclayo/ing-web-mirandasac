@@ -17,4 +17,30 @@ public class TipoProveedor {
 
     @Column(name = "descripcion")
     private String descripcion;
+
+    public TipoProveedor() {
+    }
+
+    public TipoProveedor(Integer id_tipo_proveedor, String descripcion) {
+        this.id_tipo_proveedor = id_tipo_proveedor;
+        this.descripcion = descripcion;
+    }
+
+    public Integer getId_tipo_proveedor() {
+        return id_tipo_proveedor;
+    }
+
+    public void setId_tipo_proveedor(Integer id_tipo_proveedor) {
+        this.id_tipo_proveedor = id_tipo_proveedor;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    
 }

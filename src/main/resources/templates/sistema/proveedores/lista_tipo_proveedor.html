@@ -5,35 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/inicio.css}">
-    <title>Lista de Empleados</title>
+    <title>Lista de Tipo de Proveedores</title>
 </head>
 <body>
     <div class="container-fluid" layout:fragment="contenido">
       <div class="contenido-clientes">
         <div class="row">
-            <div class="col-5">
-                <a class="btn btn-success" th:href="@{/sistema/ver-agregar-empleado}">NUEVO EMPLEADO</a>
-            </div>
+          <div class="col-5">
+              <a class="btn btn-success" th:href="@{/sistema/ver-agregar-tipo-proveedor}">NUEVO TIPO PROVEEDOR</a>
+          </div>
         </div>
         <table class="table">
           <thead>
             <tr>
               <th scope="col">Orden</th>
-              <th scope="col">DNI</th>
-              <th scope="col">Nombres</th>
-              <th scope="col">Correo</th>
-              <th scope="col">Cargo</th>
+              <th scope="col">Tipo</th>
               <th scope="col">Opcion</th>
             </tr>
           </thead>
           <tbody>
-            <tr th:each="emp: ${empleados}">
-              <td th:text="${emp.id}"></td>
-              <td th:text="${emp.getPersonaId().getRUCDNI()}"></td>
-              <td th:text="${emp.getPersonaId().getApellidos()+' '+emp.getPersonaId().getNombres()}"></td>
-              <td th:text="${emp.getPersonaId().getCorreo()}"></td>
-              <td th:text="${emp.getCargoId().getDescripcion()}"></td>
-            </tr>
+            <tr th:each="t_p: ${tipo_proveedor}">
+                <td th:text="${t_p.id_tipo_proveedor}"></td>
+                <td th:text="${t_p.descripcion}"></td>
+              </tr>
           </tbody>
         </table>
       </div>

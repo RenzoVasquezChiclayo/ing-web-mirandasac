@@ -4,39 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
     <title>Lista de Proveedores</title>
 </head>
 <body>
     <div class="container-fluid" layout:fragment="contenido">
+      <div class="contenido-clientes">
+        <div class="row">
+          <div class="col-5">
+              <a class="btn btn-success" th:href="@{/sistema/ver-agregar-proveedor}">NUEVO PROVEEDOR</a>
+          </div>
+        </div>
+        
         <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>
+          <thead>
+            <tr>
+              <th scope="col">Orden</th>
+              <th scope="col">Nombres</th>
+              <th scope="col">Telefono</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Descripcion</th>
+              <th scope="col">Web</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="prov: ${proveedor}">
+              <td th:text="${prov.id}"></td>
+              <td th:text="${prov.getPersonaId().getApellidos()+' '+cli.getPersonaId().getNombres()}"></td>
+              <td th:text="${prov.getPersonaId().getTelefono()}"></td>
+              <td th:text="${prov.getPersonaId().getCorreo()}"></td>
+              <td th:text="${prov.descripcion}"></td>
+              <td th:text="${prov.web}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        
     </div>
 </body>
 </html>

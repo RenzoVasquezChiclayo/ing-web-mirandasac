@@ -9,43 +9,97 @@
 </head>
 <body>
     <div class="container-fluid" layout:fragment="contenido">
-        <form th:action="@{'/sistema/agregar-empleado'}" method="post">
-            <div class="row">
-                <div class="col-6">
-                    <label for="">Nombres</label>
-                    <input type="text" class="form-control" th:field="${empleado.nombres}" name="emp_nombres" id="emp_nombres">
+        <div class="col-10">
+            <form th:action="@{'/sistema/agregar-empleado'}" method="post">
+                <div class="row">
+                    <div class="col-5">
+                        <div class="col-5">
+                            <label for="">DNI o RUC</label>
+                            <input type="text" class="form-control" th:field="${persona.RUCDNI}" name="per_ruc_dni" id="per_ruc_dni">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6">
-                    <label for="">Apellidos</label>
-                    <input type="text" class="form-control" th:field="${empleado.apellidos}" name="emp_apellidos" id="emp_apellidos">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Nombres</label>
+                        <input type="text" class="form-control" th:field="${persona.nombres}" name="per_nombres" id="per_nombres">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Apellidos</label>
+                        <input type="text" class="form-control" th:field="${persona.apellidos}" name="per_apellidos" id="per_apellidos">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-5">
-                    <label for="">DNI</label>
-                    <input type="text" class="form-control" th:field="${empleado.dni}" name="emp_dni" id="emp_dni">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Direccion</label>
+                        <input type="text" class="form-control" th:field="${persona.domicilio_fiscal}" name="per_domicilio_fiscal" id="per_domicilio_fiscal">
+                    </div>
+                    <div class="col-4">
+                        <label for="">Pais</label>
+                        <input type="text" class="form-control" th:field="${persona.pais}" name="per_pais" id="per_pais">
+                    </div>
+                    <div class="col-2">
+                        <label for="">Ubigeo</label>
+                        <input type="text" class="form-control" th:field="${persona.ubigeo}" name="per_ubigeo" id="per_ubigeo">
+                    </div>
                 </div>
-                <div class="col-7">
-                    <label for="">Correo</label>
-                    <input type="text" class="form-control" th:field="${empleado.correo}" name="emp_correo" id="emp_correo">
+                <div class="row">
+                    <div class="col-3">
+                        <label for="">Distrito</label>
+                        <input type="text" class="form-control" th:field="${persona.distrito}" name="per_distrito" id="per_distrito">
+                    </div>
+                    <div class="col-4">
+                        <label for="">Provincia</label>
+                        <input type="text" class="form-control" th:field="${persona.provincia}" name="per_provincia" id="per_provincia">
+                    </div>
+                    <div class="col-5">
+                        <label for="">Departamento</label>
+                        <input type="text" class="form-control" th:field="${persona.departamento}" name="per_departamento" id="per_departamento">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-5">
-                    <label for="">Telefono</label>
-                    <input type="text" class="form-control" th:field="${empleado.telefono}" name="emp_telefono" id="emp_telefono">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Telefono</label>
+                        <input type="text" class="form-control" th:field="${persona.telefono}" name="per_telefono" id="per_telefono">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Contacto</label>
+                        <input type="text" class="form-control" th:field="${persona.contacto}" name="per_contacto" id="per_contacto">
+                    </div>
                 </div>
-                <div class="col-7">
-                    <label for="">Direccion</label>
-                    <input type="text" class="form-control" th:field="${empleado.direccion}" name="emp_direccion" id="emp_direccion">
+                <div class="row">
+                    <div class="col">
+                        <label for="">Correo</label>
+                        <input type="text" class="form-control" th:field="${persona.correo}" name="per_correo" id="per_correo">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
-                    <button class="btn btn-success">Guardar</button>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Descripcion</label>
+                        <textarea rows="4" cols="" class="form-control" th:field="${empleado.descripcion}" name="emp_descripcion" id="emp_descripcion"></textarea>
+                    </div>
                 </div>
-            </div>
-        </form>
+                <div class="row">
+                    <div class="col-5">
+                        <label for="">Sueldo</label>
+                        <input type="number" class="form-control" th:field="${empleado.sueldo}" name="emp_sueldo" id="emp_sueldo">
+                    </div>
+                    <div class="col-5">
+                        <label for="">Cargo</label>
+                        <select class="form-control" th:field="${empleado.cargoId}" name="emp_cargo" id="emp_cargo">
+                            <option th:each="l_c : ${lista_cargos}" th:text="${l_c.descripcion}" th:value="${l_c.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="row justify-content-end">
+                    <div class="col-4">
+                        <button class="btn btn-success">Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>

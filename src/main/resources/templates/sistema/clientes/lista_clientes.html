@@ -10,6 +10,11 @@
 <body>
     <div class="container-fluid" layout:fragment="contenido">
       <div class="contenido-clientes">
+        <div class="row">
+          <div class="col-5">
+              <a class="btn btn-success" th:href="@{/sistema/ver-agregar-cliente}">NUEVO CLIENTE</a>
+          </div>
+        </div>
         <div class="contenido-buscar">
           <div>
             <h2>Datos para consulta</h2>
@@ -73,29 +78,20 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">Orden</th>
+              <th scope="col">Nombres</th>
+              <th scope="col">Telefono</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Descripcion</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td colspan="2">Larry the Bird</td>
-              <td>@twitter</td>
+            <tr th:each="cli: ${cliente}">
+              <td th:text="${cli.id}"></td>
+              <td th:text="${cli.getPersonaId().getApellidos()+' '+cli.getPersonaId().getNombres()}"></td>
+              <td th:text="${cli.getPersonaId().getTelefono()}"></td>
+              <td th:text="${cli.getPersonaId().getCorreo()}"></td>
+              <td th:text="${cli.descripcion}"></td>
             </tr>
           </tbody>
         </table>
