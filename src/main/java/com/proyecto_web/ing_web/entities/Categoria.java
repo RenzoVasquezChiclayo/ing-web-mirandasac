@@ -18,8 +18,8 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "categoria", nullable = false, unique = true)
-    private String categoria;
+    @Column(name = "nombre", nullable = false, unique = true)
+    private String nombre;
 
     @Column(name = "descripcion")
     private String descripcion;
@@ -36,10 +36,10 @@ public class Categoria {
     public Categoria() {
     }
 
-    public Categoria(Integer id, String categoria, String descripcion, Date createdAt, Date updatedAt,
+    public Categoria(Integer id, String nombre, String descripcion, Date createdAt, Date updatedAt,
             Empleado empleadoId) {
         this.id = id;
-        this.categoria = categoria;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -54,12 +54,12 @@ public class Categoria {
         this.id = id;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {

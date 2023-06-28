@@ -22,22 +22,30 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.proyecto_web.ing_web.entities.Almacen;
 import com.proyecto_web.ing_web.entities.Cargos;
+import com.proyecto_web.ing_web.entities.Categoria;
 import com.proyecto_web.ing_web.entities.Cliente;
 import com.proyecto_web.ing_web.entities.Conductor;
 import com.proyecto_web.ing_web.entities.Empleado;
 import com.proyecto_web.ing_web.entities.Persona;
+import com.proyecto_web.ing_web.entities.Producto;
 import com.proyecto_web.ing_web.entities.Proveedor;
+import com.proyecto_web.ing_web.entities.Ruta;
 import com.proyecto_web.ing_web.entities.TipoCliente;
 import com.proyecto_web.ing_web.entities.TipoProveedor;
+import com.proyecto_web.ing_web.entities.Unidad;
 import com.proyecto_web.ing_web.entities.Usuario;
 import com.proyecto_web.ing_web.entities.Vehiculo;
 import com.proyecto_web.ing_web.implementacion.EmpleadoServiceImpl;
 import com.proyecto_web.ing_web.repositorios.IAlmacenRepo;
 import com.proyecto_web.ing_web.repositorios.ICargoRepo;
+import com.proyecto_web.ing_web.repositorios.ICategoriaRepo;
 import com.proyecto_web.ing_web.repositorios.IConductorRepo;
 import com.proyecto_web.ing_web.repositorios.IEmpleadoRepo;
+import com.proyecto_web.ing_web.repositorios.IProductoRepo;
+import com.proyecto_web.ing_web.repositorios.IRutaRepo;
 import com.proyecto_web.ing_web.repositorios.ITipoClienteRepo;
 import com.proyecto_web.ing_web.repositorios.ITipoProveedorRepo;
+import com.proyecto_web.ing_web.repositorios.IUnidadRepo;
 import com.proyecto_web.ing_web.repositorios.IVehiculoRepo;
 import com.proyecto_web.ing_web.servicios.ClienteService;
 import com.proyecto_web.ing_web.servicios.EmpleadoService;
@@ -83,7 +91,19 @@ public class InicioController {
     private IAlmacenRepo almacen_repo;
 
     @Autowired
+    private IProductoRepo producto_repo;
+
+    @Autowired
+    private IRutaRepo ruta_repo;
+
+    @Autowired
+    private ICategoriaRepo categoria_repo;
+
+    @Autowired
     private IVehiculoRepo vehiculo_repo;
+
+    @Autowired
+    private IUnidadRepo unidad_repo;
 
     @Autowired
     private IConductorRepo conductor_repo;
@@ -858,5 +878,412 @@ public class InicioController {
         vehiculo_repo.delete(vehiculoFind.get());
         return "redirect:/sistema/lista-vehiculo";
     }
+    //----------------------------------------------------------------------
+
+    //----------------------UNIDAD------------------------------------------
+
+    @GetMapping("/lista-unidad")
+    public String lista_unidad(Model model){
+        List<Unidad> lista_unidad = unidad_repo.findAll();
+        model.addAttribute("unidad", lista_unidad);
+        return "sistema/unidades/lista_unidad";
+    }
+
+    @GetMapping("/ver-agregar-unidad")
+    public String ver_agregar_unidad(Model model){
+        Unidad unidad = new Unidad();
+        model.addAttribute("unidad",unidad);
+        return "sistema/unidades/nueva_unidad";
+    }
+
+    @PostMapping("/agregar-unidad")
+    public String agregar_unidad(@ModelAttribute("unidad") Unidad unidad,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttrs,
+        HttpSession session){
+        if (bindingResult.hasErrors()) {
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/agregar-unidad";
+        }
+        try {
+            Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
+            Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
+            unidad.setCreatedAt(fecha);
+            unidad.setUpdatedAt(fecha);
+            unidad.setEmpleadoId(find_empleado);
+            unidad_repo.save(unidad);
+            redirectAttrs
+            .addFlashAttribute("mensaje", "Agregado correctamente")
+            .addFlashAttribute("clase", "success");
+
+            return "redirect:/sistema/lista-unidad";
+        } catch (Exception e) {
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/lista-unidad";
+            
+        }
+        
+    }
+
+    @GetMapping("/ver-editar-unidad/{id_unidad}")
+    public String editarUnidad(@PathVariable Integer id_unidad,Model model){
+        Optional<Unidad> unidadFind = unidad_repo.findById(id_unidad);
+        model.addAttribute("unidad",unidadFind.get());
+        return "sistema/unidades/editar_unidad";
+    }
+
+    @PostMapping("/validar-edicion-unidad/{id_unidad}")
+    public String saveEdicionUnidad(
+        @RequestParam(value = "txtid_unidad") Integer id_unidad,
+        @ModelAttribute("unidad") @Validated Unidad unidad,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttrs){
+        if (bindingResult.hasErrors()) {
+            if (unidad.getId()!= null) {
+                redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+                return "redirect:/sistema/ver-editar-unidad/" + id_unidad;
+            }
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/ver-editar-unidad/" + id_unidad;
+        }
+        Optional<Unidad> unidadFind = unidad_repo.findById(id_unidad);
+        unidadFind.get().setNombre(unidad.getNombre());
+        unidadFind.get().setDescripcion(unidad.getDescripcion());
+        unidad_repo.save(unidadFind.get());
+        redirectAttrs
+                .addFlashAttribute("mensaje", "Editado correctamente")
+                .addFlashAttribute("clase", "success");
+        return "redirect:/sistema/lista-unidad";
+    }
+
+    @PostMapping("/eliminar-unidad")
+    public String eliminarUnidad(RedirectAttributes redirectAttrs,
+                    @RequestParam(value = "txtid_unidad") Integer idunidad){
+        redirectAttrs
+                .addFlashAttribute("mensaje", "Eliminado correctamente")
+                .addFlashAttribute("clase", "warning"); 
+        Optional<Unidad> unidadFind = unidad_repo.findById(idunidad);
+        unidad_repo.delete(unidadFind.get());
+        return "redirect:/sistema/lista-unidad";
+    }
+
+    //--------------------------------------------------------------------------------------
     
+    //----------------------CATEGORIA------------------------------------------
+
+    @GetMapping("/lista-categoria")
+    public String lista_categoria(Model model){
+        List<Categoria> lista_categoria = categoria_repo.findAll();
+        model.addAttribute("categoria", lista_categoria);
+        return "sistema/productos/lista_categoria";
+    }
+
+    @GetMapping("/ver-agregar-categoria")
+    public String ver_agregar_categoria(Model model){
+        Categoria categoria = new Categoria();
+        model.addAttribute("categoria",categoria);
+        return "sistema/productos/nueva_categoria";
+    }
+
+    @PostMapping("/agregar-categoria")
+    public String agregar_categoria(@ModelAttribute("categoria") Categoria categoria,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttrs,
+        HttpSession session){
+        if (bindingResult.hasErrors()) {
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/agregar-categoria";
+        }
+        try {
+            Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
+            Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
+            categoria.setCreatedAt(fecha);
+            categoria.setUpdatedAt(fecha);
+            categoria.setEmpleadoId(find_empleado);
+            categoria_repo.save(categoria);
+            redirectAttrs
+            .addFlashAttribute("mensaje", "Agregado correctamente")
+            .addFlashAttribute("clase", "success");
+
+            return "redirect:/sistema/lista-categoria";
+        } catch (Exception e) {
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/lista-categoria";
+            
+        }
+        
+    }
+
+    @GetMapping("/ver-editar-categoria/{id_categoria}")
+    public String editarCategoria(@PathVariable Integer id_categoria,Model model){
+        Optional<Categoria> categoriaFind = categoria_repo.findById(id_categoria);
+        model.addAttribute("categoria",categoriaFind.get());
+        return "sistema/productos/editar_categoria";
+    }
+
+    @PostMapping("/validar-edicion-categoria/{id_categoria}")
+    public String saveEdicionCategoria(
+        @RequestParam(value = "txtid_categoria") Integer id_categoria,
+        @ModelAttribute("categoria") @Validated Categoria categoria,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttrs){
+        if (bindingResult.hasErrors()) {
+            if (categoria.getId()!= null) {
+                redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+                return "redirect:/sistema/ver-editar-categoria/" + id_categoria;
+            }
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/ver-editar-categoria/" + id_categoria;
+        }
+        Optional<Categoria> categoriaFind = categoria_repo.findById(id_categoria);
+        categoriaFind.get().setNombre(categoria.getNombre());
+        categoriaFind.get().setDescripcion(categoria.getDescripcion());
+        categoria_repo.save(categoriaFind.get());
+        redirectAttrs
+                .addFlashAttribute("mensaje", "Editado correctamente")
+                .addFlashAttribute("clase", "success");
+        return "redirect:/sistema/lista-categoria";
+    }
+
+    @PostMapping("/eliminar-categoria")
+    public String eliminarCategoria(RedirectAttributes redirectAttrs,
+                    @RequestParam(value = "txtid_categoria") Integer idcategoria){
+        redirectAttrs
+                .addFlashAttribute("mensaje", "Eliminado correctamente")
+                .addFlashAttribute("clase", "warning"); 
+        Optional<Categoria> categoriaFind = categoria_repo.findById(idcategoria);
+        categoria_repo.delete(categoriaFind.get());
+        return "redirect:/sistema/lista-categoria";
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    //----------------------PRODUCTO------------------------------------------
+
+    @GetMapping("/lista-producto")
+    public String lista_producto(Model model){
+        List<Producto> lista_producto = producto_repo.findAll();
+        model.addAttribute("producto", lista_producto);
+        return "sistema/productos/lista_producto";
+    }
+
+    @GetMapping("/ver-agregar-producto")
+    public String ver_agregar_producto(Model model){
+        Producto producto = new Producto();
+        List<Categoria> lista_categoria = categoria_repo.findAll();
+        model.addAttribute("producto",producto);
+        model.addAttribute("categoria",lista_categoria);
+        return "sistema/productos/nuevo_producto";
+    }
+
+    @PostMapping("/agregar-producto")
+    public String agregar_producto(@ModelAttribute("producto") Producto producto,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttrs,
+        HttpSession session){
+        if (bindingResult.hasErrors()) {
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/agregar-producto";
+        }
+        try {
+            Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
+            Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
+            producto.setCreatedAt(fecha);
+            producto.setUpdatedAt(fecha);
+            producto.setEmpleadoId(find_empleado);
+            producto.setEstado(true);
+            producto_repo.save(producto);
+            redirectAttrs
+            .addFlashAttribute("mensaje", "Agregado correctamente")
+            .addFlashAttribute("clase", "success");
+
+            return "redirect:/sistema/lista-producto";
+        } catch (Exception e) {
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/lista-producto";
+            
+        }
+        
+    }
+
+    @GetMapping("/ver-editar-producto/{id_producto}")
+    public String editarProducto(@PathVariable Integer id_producto,Model model){
+        Optional<Producto> productoFind = producto_repo.findById(id_producto);
+        List<Categoria> lista_categoria = categoria_repo.findAll();
+        model.addAttribute("producto",productoFind.get());
+        model.addAttribute("categoria",lista_categoria);
+        return "sistema/productos/editar_producto";
+    }
+
+    @PostMapping("/validar-edicion-producto/{id_producto}")
+    public String saveEdicionProducto(
+        @RequestParam(value = "txtid_producto") Integer id_producto,
+        @RequestParam(value = "producto_categoria") Integer producto_categoria,
+        @ModelAttribute("producto") @Validated Producto producto,
+        @ModelAttribute("categoria") @Validated Categoria categoria,
+
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttrs){
+        if (bindingResult.hasErrors()) {
+            if (producto.getId()!= null) {
+                redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+                return "redirect:/sistema/ver-editar-producto/" + id_producto;
+            }
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/ver-editar-producto/" + id_producto;
+        }
+        Optional<Producto> productoFind = producto_repo.findById(id_producto);
+        Optional<Categoria> categoriaFind = categoria_repo.findById(producto_categoria);
+        productoFind.get().setNombre(producto.getNombre());
+        productoFind.get().setDescripcion(producto.getDescripcion());
+        productoFind.get().setCategoriaId(categoriaFind.get());
+        producto_repo.save(productoFind.get());
+        redirectAttrs
+                .addFlashAttribute("mensaje", "Editado correctamente")
+                .addFlashAttribute("clase", "success");
+        return "redirect:/sistema/lista-producto";
+    }
+
+    @PostMapping("/eliminar-producto")
+    public String eliminarProducto(RedirectAttributes redirectAttrs,
+                    @RequestParam(value = "txtid_producto") Integer idproducto){
+        redirectAttrs
+                .addFlashAttribute("mensaje", "Eliminado correctamente")
+                .addFlashAttribute("clase", "warning"); 
+        Optional<Producto> productoFind = producto_repo.findById(idproducto);
+        producto_repo.delete(productoFind.get());
+        return "redirect:/sistema/lista-producto";
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    //----------------------RUTA------------------------------------------
+
+    @GetMapping("/lista-ruta")
+    public String lista_ruta(Model model){
+        List<Ruta> lista_ruta = ruta_repo.findAll();
+        model.addAttribute("ruta", lista_ruta);
+        return "sistema/rutas/lista_ruta";
+    }
+
+    @GetMapping("/ver-agregar-ruta")
+    public String ver_agregar_ruta(Model model){
+        Ruta ruta = new Ruta();
+        List<Almacen> lista_almacen = almacen_repo.findAll();
+        model.addAttribute("ruta",ruta);
+        model.addAttribute("almacen",lista_almacen);
+        return "sistema/rutas/nueva_ruta";
+    }
+
+    @PostMapping("/agregar-ruta")
+    public String agregar_ruta(@ModelAttribute("ruta") Ruta ruta,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttrs,
+        HttpSession session){
+        if (bindingResult.hasErrors()) {
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/agregar-ruta";
+        }
+        try {
+            Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
+            Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
+            ruta.setCreatedAt(fecha);
+            ruta.setUpdatedAt(fecha);
+            ruta.setEmpleadoId(find_empleado);
+            ruta_repo.save(ruta);
+            redirectAttrs
+            .addFlashAttribute("mensaje", "Agregado correctamente")
+            .addFlashAttribute("clase", "success");
+
+            return "redirect:/sistema/lista-ruta";
+        } catch (Exception e) {
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/lista-ruta";
+            
+        }
+        
+    }
+
+    @GetMapping("/ver-editar-ruta/{id_ruta}")
+    public String editarRuta(@PathVariable Integer id_ruta,Model model){
+        Optional<Ruta> rutaFind = ruta_repo.findById(id_ruta);
+        List<Almacen> lista_almacen = almacen_repo.findAll();
+        model.addAttribute("ruta",rutaFind.get());
+        model.addAttribute("almacen",lista_almacen);
+        return "sistema/rutas/editar_ruta";
+    }
+
+    @PostMapping("/validar-edicion-ruta/{id_ruta}")
+    public String saveEdicionRuta(
+        @RequestParam(value = "txtid_ruta") Integer id_ruta,
+        @RequestParam(value = "ruta_almacen") Integer ruta_almacen,
+        @ModelAttribute("ruta") @Validated Ruta ruta,
+        BindingResult bindingResult,
+        RedirectAttributes redirectAttrs){
+        if (bindingResult.hasErrors()) {
+            if (ruta.getId()!= null) {
+                redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+                return "redirect:/sistema/ver-editar-ruta/" + id_ruta;
+            }
+            redirectAttrs
+                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/ver-editar-ruta/" + id_ruta;
+        }
+        Optional<Ruta> rutaFind = ruta_repo.findById(id_ruta);
+        Optional<Almacen> almacenFind = almacen_repo.findById(ruta_almacen);
+        rutaFind.get().setDestino(ruta.getDestino());
+        rutaFind.get().setDistancia(ruta.getDistancia());
+        rutaFind.get().setDuracion_estimada(ruta.getDuracion_estimada());
+        rutaFind.get().setTarifa_base(ruta.getTarifa_base());
+        rutaFind.get().setAlmacenId(almacenFind.get());
+        ruta_repo.save(rutaFind.get());
+        redirectAttrs
+                .addFlashAttribute("mensaje", "Editado correctamente")
+                .addFlashAttribute("clase", "success");
+        return "redirect:/sistema/lista-ruta";
+    }
+
+    @PostMapping("/eliminar-ruta")
+    public String eliminarRuta(RedirectAttributes redirectAttrs,
+                    @RequestParam(value = "txtid_ruta") Integer idruta){
+        redirectAttrs
+                .addFlashAttribute("mensaje", "Eliminado correctamente")
+                .addFlashAttribute("clase", "warning"); 
+        Optional<Ruta> rutaFind = ruta_repo.findById(idruta);
+        ruta_repo.delete(rutaFind.get());
+        return "redirect:/sistema/lista-ruta";
+    }
+
+    //--------------------------------------------------------------------------------------
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Nueva Categoria</title>
+    <style>
+        label{
+            float: right;
+        }
+        div .row{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+        <div class="contenido-clientes">
+            <div class="row">
+                <div class="col-10">
+                    <form th:action="@{'/sistema/agregar-categoria'}" method="post">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Nombre</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="text" th:field="${categoria.nombre}" name="categoria_nombre" id="categoria_nombre" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Descripcion</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="text" th:field="${categoria.descripcion}" name="categoria_descripcion" id="categoria_descripcion" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-success" >Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

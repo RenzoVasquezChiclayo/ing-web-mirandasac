@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Lista de Rutas</title>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+      <div class="contenido-clientes">
+        <div class="row">
+          <div class="col-5">
+              <a class="btn btn-success" th:href="@{/sistema/ver-agregar-ruta}">NUEVA RUTA</a>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Orden</th>
+              <th scope="col">Destino</th>
+              <th scope="col">Distancia</th>
+              <th scope="col">Duracion</th>
+              <th scope="col">Tarifa</th>
+              <th scope="col">Opcion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="ru: ${ruta}">
+                <td th:text="${ru.id}"></td>
+                <td th:text="${ru.destino}"></td>
+                <td th:text="${ru.distancia}"></td>
+                <td th:text="${ru.duracion_estimada}"></td>
+                <td th:text="${ru.tarifa_base}"></td>
+                <td>
+                  <div class="row">
+                      <div class="col-3">
+                          <a class="btn btn-warning"  th:href="@{'/sistema/ver-editar-ruta/' + ${ru.id}}"><i class="fa fa-edit"></i></a>
+                      </div>
+                      <div class="col-3">
+                          <form th:action="@{/sistema/eliminar-ruta}" method="post" style="display:block;">
+                              <input type="hidden" name="txtid_ruta" th:value="${ru.id}"/>
+                              <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                          </form>
+                      </div>
+              </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+        
+    </div>
+</body>
+</html>

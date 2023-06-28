@@ -17,8 +17,8 @@ public class Unidad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "unidad", nullable = false, unique = true)
-    private String unidad;
+    @Column(name = "nombre", nullable = false, unique = true)
+    private String nombre;
 
     @Column(name = "descripcion")
     private String descripcion;
@@ -35,9 +35,9 @@ public class Unidad {
     public Unidad() {
     }
 
-    public Unidad(Integer id, String unidad, String descripcion, Date createdAt, Date updatedAt, Empleado empleadoId) {
+    public Unidad(Integer id, String nombre, String descripcion, Date createdAt, Date updatedAt, Empleado empleadoId) {
         this.id = id;
-        this.unidad = unidad;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -52,12 +52,12 @@ public class Unidad {
         this.id = id;
     }
 
-    public String getUnidad() {
-        return unidad;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setUnidad(String unidad) {
-        this.unidad = unidad;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {

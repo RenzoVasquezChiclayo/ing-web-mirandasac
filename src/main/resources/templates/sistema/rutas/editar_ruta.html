@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Editar Ruta</title>
+    <style>
+        label{
+            float: right;
+        }
+        div .row{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+        <div class="contenido-clientes">
+            <div class="row">
+                <div class="col-10">
+                    <form th:action="@{'/sistema/validar-edicion-ruta/'+${ruta.id}}" method="post">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Destino</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="text" th:field="${ruta.destino}" th:value="${ruta.destino}" name="ruta_destino" id="ruta_destino" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Distancia</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="number" th:field="${ruta.distancia}" th:value="${ruta.distancia}" name="ruta_distancia" id="ruta_distancia" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Duracion</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="number" th:field="${ruta.duracion_estimada}" th:value="${ruta.duracion_estimada}" name="ruta_duracion" id="ruta_duracion" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Tarifa</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="number" th:field="${ruta.tarifa_base}" th:value="${ruta.tarifa_base}" name="ruta_tarifa" id="ruta_tarifa" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Almacen</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <select class="form-control" th:name="ruta_almacen" id="ruta_almacen">
+                                    <option th:each="alm : ${almacen}" th:text="${alm.nombre}" th:value="${alm.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" th:value="${ruta.id}" name="txtid_ruta">
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-success" >Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

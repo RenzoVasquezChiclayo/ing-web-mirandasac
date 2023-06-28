@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Editar Producto</title>
+    <style>
+        label{
+            float: right;
+        }
+        div .row{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+        <div class="contenido-clientes">
+            <div class="row">
+                <div class="col-10">
+                    <form th:action="@{'/sistema/validar-edicion-producto/'+${producto.id}}" method="post">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Codigo</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="text" th:field="${producto.codigo}" th:value="${producto.codigo}" name="producto_codigo" id="producto_codigo" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Nombre</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="text" th:field="${producto.nombre}" th:value="${producto.nombre}" name="producto_nombre" id="producto_nombre" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Descripcion</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="text" th:field="${producto.descripcion}" th:value="${producto.descripcion}" name="producto_descripcion" id="producto_descripcion" value="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Categoria</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <select class="form-control" th:name="producto_categoria" id="producto_categoria">
+                                    <option th:each="cat : ${categoria}" th:text="${cat.nombre}" th:value="${cat.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" th:value="${producto.id}" name="txtid_producto">
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-success" >Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

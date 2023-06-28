@@ -23,8 +23,8 @@ public class Producto {
     @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name = "producto", nullable = false, unique = true)
-    private String producto;
+    @Column(name = "nombre", nullable = false, unique = true)
+    private String nombre;
 
     @Column(name = "estado", nullable = false)
     private Boolean estado;
@@ -44,12 +44,12 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(Integer id, String codigo, String descripcion, String producto, Boolean estado, Date createdAt,
+    public Producto(Integer id, String codigo, String descripcion, String nombre, Boolean estado, Date createdAt,
             Date updatedAt, Empleado empleadoId, Categoria categoriaId) {
         this.id = id;
         this.codigo = codigo;
         this.descripcion = descripcion;
-        this.producto = producto;
+        this.nombre = nombre;
         this.estado = estado;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -81,12 +81,12 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public String getProducto() {
-        return producto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setProducto(String producto) {
-        this.producto = producto;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public Boolean getEstado() {
