@@ -5,40 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/inicio.css}">
-    <title>Lista de Tipo de Proveedores</title>
+    <title>Lista de Almacenes</title>
 </head>
 <body>
     <div class="container-fluid" layout:fragment="contenido">
       <div class="contenido-clientes">
         <div class="row">
           <div class="col-5">
-              <a class="btn btn-success" th:href="@{/sistema/ver-agregar-tipo-proveedor}">NUEVO TIPO PROVEEDOR</a>
+              <a class="btn btn-success" th:href="@{/sistema/ver-agregar-almacen}">NUEVO ALMACEN</a>
           </div>
         </div>
         <table class="table">
           <thead>
             <tr>
               <th scope="col">Orden</th>
-              <th scope="col">Tipo</th>
+              <th scope="col">Almacen</th>
+              <th scope="col">Direccion</th>
+              <th scope="col">Ciudad</th>
+              <th scope="col">Capacidad</th>
               <th scope="col">Opcion</th>
             </tr>
           </thead>
           <tbody>
-            <tr th:each="t_p: ${tipo_proveedor}">
-                <td th:text="${t_p.id_tipo_proveedor}"></td>
-                <td th:text="${t_p.descripcion}"></td>
+            <tr th:each="alm: ${almacen}">
+                <td th:text="${alm.id}"></td>
+                <td th:text="${alm.nombre}"></td>
+                <td th:text="${alm.direccion}"></td>
+                <td th:text="${alm.ciudad}"></td>
+                <td th:text="${alm.capacidad}"></td>
                 <td>
                   <div class="row">
                       <div class="col-3">
-                          <a class="btn btn-warning"  th:href="@{'/sistema/ver-editar-tipo-proveedor/' + ${t_p.id_tipo_proveedor}}"><i class="fa fa-edit"></i></a>
+                          <a class="btn btn-warning"  th:href="@{'/sistema/ver-editar-almacen/' + ${alm.id}}"><i class="fa fa-edit"></i></a>
                       </div>
                       <div class="col-3">
-                          <form th:action="@{/sistema/eliminar-tipo-proveedor}" method="post" style="display:block;">
-                              <input type="hidden" name="txtid_tipo_proveedor" th:value="${t_p.id_tipo_proveedor}"/>
+                          <form th:action="@{/sistema/eliminar-almacen}" method="post" style="display:block;">
+                              <input type="hidden" name="txtid_almacen" th:value="${alm.id}"/>
                               <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                           </form>
                       </div>
-              </td>
+                </td>
               </tr>
           </tbody>
         </table>

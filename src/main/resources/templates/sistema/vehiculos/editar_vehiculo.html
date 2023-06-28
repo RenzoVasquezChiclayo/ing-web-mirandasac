@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Editar Vehiculo</title>
+    <style>
+
+        div .row{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+        <div class="contenido-clientes">
+            <div class="row">
+                <div class="col-10">
+                    <form th:action="@{'/sistema/validar-edicion-vehiculo/' + ${vehiculo.id}}" method="post">
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="">Placa</label>
+                                <input class="form-control" type="text" th:field="${vehiculo.placa}" th:value="${vehiculo.placa}" name="vehiculo_placa" id="vehiculo_placa" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="">Marca</label>
+                                <input class="form-control" type="text" th:field="${vehiculo.marca}" th:value="${vehiculo.marca}" name="vehiculo_marca" id="vehiculo_marca" value="">
+                            </div>
+                            <div class="col-7">
+                                <label for="">Modelo</label>
+                                <input class="form-control" type="text" th:field="${vehiculo.modelo}" th:value="${vehiculo.modelo}" name="vehiculo_modelo" id="vehiculo_modelo" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="">Year</label>
+                                <input class="form-control" type="number" th:field="${vehiculo.year}" th:value="${vehiculo.year}" name="vehiculo_year" id="vehiculo_year" value="">
+                            </div>
+                            <div class="col-5">
+                                <label for="">Unidad</label>
+                                <input class="form-control" type="text" th:field="${vehiculo.unidad}" th:value="${vehiculo.unidad}" name="vehiculo_unidad" id="vehiculo_unidad" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="">Capacidad de Carga</label>
+                                <input class="form-control" type="number" th:field="${vehiculo.capacidad_carga}" th:value="${vehiculo.capacidad_carga}" name="vehiculo_capacidad_carga" id="vehiculo_capacidad_carga" value="">
+                            </div>
+                        </div>
+                        <input type="hidden" th:value="${vehiculo.id}" name="txtid_vehiculo">
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-success" >Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

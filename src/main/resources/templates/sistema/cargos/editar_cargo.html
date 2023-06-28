@@ -20,15 +20,16 @@
         <div class="contenido-clientes">
             <div class="row">
                 <div class="col-10">
-                    <form th:action="@{'/sistema/agregar-cargo'}" method="post">
+                    <form th:action="@{'/sistema/validar-edicion-cargo/'+ ${cargo.id}}" method="post">
                         <div class="row">
                             <div class="col-3">
                                 <label for="">Descripcion</label>
                             </div>
                             <div class="col-4 align-items-end">
-                                <input class="form-control" type="text" th:field="${cargo.descripcion}" name="cargo_descripcion" id="cargo_descripcion" value="">
+                                <input class="form-control" type="text" th:field="${cargo.descripcion}" th:value="${cargo.descripcion}" name="cargo_descripcion" id="cargo_descripcion" value="">
                             </div>
                         </div>
+                        <input type="hidden" th:value="${cargo.id}" name="txtid_cargo">
                         <div class="row">
                             <div class="col-5">
                                 <button class="btn btn-success" >Guardar</button>

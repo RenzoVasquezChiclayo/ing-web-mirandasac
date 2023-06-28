@@ -33,7 +33,7 @@
             </div>
             <ul class="nav_list">
                 <li>
-                    <a>
+                    <a th:href="@{'inicio'}">
                       <i class='bx bxs-user-circle' ></i>
                         <span class="links_name">Perfil</span>
                     </a>
@@ -80,6 +80,27 @@
                         <span class="links_name">Tipo Proveedor</span>
                     </a>
                     <span class="tooltip">Tipo Proveedor</span>
+                </li>
+                <li>
+                    <a th:href="@{'lista-almacen'}">
+                      <i class='bx bxs-report' ></i>
+                        <span class="links_name">Almacenes</span>
+                    </a>
+                    <span class="tooltip">Almacen</span>
+                </li>
+                <li>
+                    <a th:href="@{'lista-conductor'}">
+                      <i class='bx bxs-report' ></i>
+                        <span class="links_name">Conductores</span>
+                    </a>
+                    <span class="tooltip">Conductores</span>
+                </li>
+                <li>
+                    <a th:href="@{'lista-vehiculo'}">
+                      <i class='bx bxs-report' ></i>
+                        <span class="links_name">Vehiculos</span>
+                    </a>
+                    <span class="tooltip">Vehiculos</span>
                 </li>
             </ul>
         </div>

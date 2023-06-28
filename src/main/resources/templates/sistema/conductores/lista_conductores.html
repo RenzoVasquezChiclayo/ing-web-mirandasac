@@ -5,36 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/inicio.css}">
-    <title>Lista de Proveedores</title>
+    <title>Lista de Conductores</title>
 </head>
 <body>
     <div class="container-fluid" layout:fragment="contenido">
       <div class="contenido-clientes">
         <div class="row">
-          <div class="col-5">
-              <a class="btn btn-success" th:href="@{/sistema/ver-agregar-proveedor}">NUEVO PROVEEDOR</a>
-          </div>
+            <div class="col-5">
+                <a class="btn btn-success" th:href="@{/sistema/ver-agregar-conductor}">NUEVO CONDUCTOR</a>
+            </div>
         </div>
-        
         <table class="table">
           <thead>
             <tr>
               <th scope="col">Orden</th>
+              <th scope="col">DNI</th>
               <th scope="col">Nombres</th>
-              <th scope="col">Telefono</th>
               <th scope="col">Correo</th>
-              <th scope="col">Descripcion</th>
-              <th scope="col">Web</th>
+              <th scope="col">Licencia</th>
+              <th scope="col">Fecha Vencimiento</th>
+              <th scope="col">Opcion</th>
             </tr>
           </thead>
           <tbody>
-            <tr th:each="prov: ${proveedor}">
-              <td th:text="${prov.id}"></td>
-              <td th:text="${prov.getPersonaId().getApellidos()+' '+prov.getPersonaId().getNombres()}"></td>
-              <td th:text="${prov.getPersonaId().getTelefono()}"></td>
-              <td th:text="${prov.getPersonaId().getCorreo()}"></td>
-              <td th:text="${prov.descripcion}"></td>
-              <td th:text="${prov.web}"></td>
+            <tr th:each="con: ${conductor}">
+              <td th:text="${con.id}"></td>
+              <td th:text="${con.getPersonaId().getRUCDNI()}"></td>
+              <td th:text="${con.getPersonaId().getApellidos()+' '+con.getPersonaId().getNombres()}"></td>
+              <td th:text="${con.getPersonaId().getCorreo()}"></td>
+              <td th:text="${con.getLicencia()}"></td>
+              <td th:text="${con.getFecha_vencimiento()}"></td>
             </tr>
           </tbody>
         </table>

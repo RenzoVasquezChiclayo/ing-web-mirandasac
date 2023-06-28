@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Lista de Vehiculos</title>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+      <div class="contenido-clientes">
+        <div class="row">
+          <div class="col-5">
+              <a class="btn btn-success" th:href="@{/sistema/ver-agregar-vehiculo}">NUEVO VEHICULO</a>
+          </div>
+        </div>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Orden</th>
+              <th scope="col">Placa</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Capacidad de Carga</th>
+              <th scope="col">Opcion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="ve: ${vehiculo}">
+              <td th:text="${ve.id}"></td>
+              <td th:text="${ve.placa}"></td>
+              <td th:text="${ve.marca}"></td>
+              <td th:text="${ve.capacidad_carga}"></td>
+              <td>
+                <div class="row">
+                    <div class="col-3">
+                        <a class="btn btn-warning"  th:href="@{'/sistema/ver-editar-vehiculo/' + ${ve.id}}"><i class="fa fa-edit"></i></a>
+                    </div>
+                    <div class="col-3">
+                        <form th:action="@{/sistema/eliminar-vehiculo}" method="post" style="display:block;">
+                            <input type="hidden" name="txtid_vehiculo" th:value="${ve.id}"/>
+                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        </form>
+                    </div>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        
+    </div>
+</body>
+</html>

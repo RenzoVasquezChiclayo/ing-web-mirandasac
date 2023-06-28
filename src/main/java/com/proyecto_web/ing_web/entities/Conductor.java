@@ -1,5 +1,8 @@
 package com.proyecto_web.ing_web.entities;
 
+
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -28,7 +31,7 @@ public class Conductor {
     private String licencia;
 
     @Column(name = "fecha_vencimiento", nullable = false)
-    private Date fecha_vencimiento;
+    private LocalDate fecha_vencimiento;
 
     @Column(name = "createdAt", nullable = false)
     private Date createdAt;
@@ -45,7 +48,7 @@ public class Conductor {
     public Conductor() {
     }
 
-    public Conductor(Integer id, String observaciones, String descripcion, String licencia, Date fecha_vencimiento,
+    public Conductor(Integer id, String observaciones, String descripcion, String licencia, LocalDate fecha_vencimiento,
             Date createdAt, Date updatedAt, Empleado empleadoId, Persona personaId) {
         this.id = id;
         this.observaciones = observaciones;
@@ -90,11 +93,11 @@ public class Conductor {
         this.licencia = licencia;
     }
 
-    public Date getFecha_vencimiento() {
+    public LocalDate getFecha_vencimiento() {
         return fecha_vencimiento;
     }
 
-    public void setFecha_vencimiento(Date fecha_vencimiento) {
+    public void setFecha_vencimiento(LocalDate fecha_vencimiento) {
         this.fecha_vencimiento = fecha_vencimiento;
     }
 

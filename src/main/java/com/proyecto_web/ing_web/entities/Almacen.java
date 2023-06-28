@@ -18,8 +18,8 @@ public class Almacen {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "almacen", nullable = false)
-    private String almacen;
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
 
     @Column(name = "direccion", nullable = false, unique = true)
     private String direccion;
@@ -48,10 +48,10 @@ public class Almacen {
     public Almacen() {
     }
 
-    public Almacen(Integer id, String almacen, String direccion, Double capacidad, String pais, String ciudad,
+    public Almacen(Integer id, String nombre, String direccion, Double capacidad, String pais, String ciudad,
             boolean estado, Date createdAt, Date updatedAt, Empleado empleadoId) {
         this.id = id;
-        this.almacen = almacen;
+        this.nombre = nombre;
         this.direccion = direccion;
         this.capacidad = capacidad;
         this.pais = pais;
@@ -70,12 +70,12 @@ public class Almacen {
         this.id = id;
     }
 
-    public String getAlmacen() {
-        return almacen;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setAlmacen(String almacen) {
-        this.almacen = almacen;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDireccion() {

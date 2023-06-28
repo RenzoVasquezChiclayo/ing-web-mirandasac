@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Nuevo Almacen</title>
+    <style>
+
+        div .row{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+        <div class="contenido-clientes">
+            <div class="row">
+                <div class="col-10">
+                    <form th:action="@{'/sistema/validar-edicion-almacen/'+${almacen.id}}" method="post">
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="">Almacen</label>
+                                <input class="form-control" type="text" th:field="${almacen.nombre}" th:value="${almacen.nombre}" name="almacen_almacen" id="almacen_almacen" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                <label for="">Direccion</label>
+                                <input class="form-control" type="text" th:field="${almacen.direccion}" th:value="${almacen.direccion}" name="almacen_direccion" id="almacen_direccion" value="">
+                            </div>
+                            <div class="col-5">
+                                <label for="">Capacidad</label>
+                                <input class="form-control" type="text" th:field="${almacen.capacidad}" th:value="${almacen.capacidad}" name="almacen_capacidad" id="almacen_capacidad" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="">Ciudad</label>
+                                <input class="form-control" type="text" th:field="${almacen.ciudad}" th:value="${almacen.ciudad}" name="almacen_ciudad" id="almacen_ciudad" value="">
+                            </div>
+                            <div class="col-4">
+                                <label for="">Pais</label>
+                                <input class="form-control" type="text" th:field="${almacen.pais}" th:value="${almacen.pais}" name="almacen_pais" id="almacen_pais" value="">
+                            </div>
+                        </div>
+                        <input type="hidden" th:value="${almacen.id}" name="txtid_almacen">
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-success" >Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

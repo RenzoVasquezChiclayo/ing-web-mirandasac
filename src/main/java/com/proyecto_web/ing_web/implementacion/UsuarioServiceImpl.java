@@ -13,11 +13,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.proyecto_web.ing_web.entities.Rol;
 import com.proyecto_web.ing_web.entities.Usuario;
 import com.proyecto_web.ing_web.repositorios.IUsuarioRepo;
 import com.proyecto_web.ing_web.servicios.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @Service("UsuarioServiceImpl")
@@ -51,6 +55,13 @@ public class UsuarioServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario_find = usuario_repo.findByUsuario(username);
         UserDetails user_det = new User(usuario_find.getUsuario(), usuario_find.getPassword(), mapearAutoridadesRoles(usuario_find.getRol()));
+        
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+        HttpSession sesion = attr.getRequest().getSession(true);
+
+        sesion.setAttribute("usuariosession", usuario_find);
+        System.out.println(usuario_find);
         return user_det;
     }
 
