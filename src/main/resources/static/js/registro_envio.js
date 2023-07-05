@@ -28,11 +28,10 @@ let productList = [];
             const newAgregado = {id:producto.id, precio: precio, cantidad: cantidad};
                 
             const subtotal = precio * cantidad;
-            if (productosAgregados.has(p => {p.id === productoId})) {
+            if ([...productosAgregados].some(obj => obj.id === productoId)) {
                 alert("El producto ya ha sido agregado");
                 return null;
             }
-            console.log(productosAgregados.has(productoId));
             productosAgregados.add(newAgregado);
 
             const tablaProductos = document.getElementById("tableProductosEnvio");
