@@ -137,6 +137,13 @@
                     </a>
                     <span class="tooltip">Envio</span>
                 </li>
+                <li>
+                    <a th:href="@{'/sistema/listar-factura'}">
+                      <i class='bx bxs-report' ></i>
+                        <span class="links_name">Factura</span>
+                    </a>
+                    <span class="tooltip">Factura</span>
+                </li>
             </ul>
         </div>
         <div class="home_content">
@@ -152,7 +159,7 @@
                             </button>
                             <div class="dropdown-menu" id="myDropdown">
                                 <li>
-                                      <a th:href="@{/logout}" class="dropdown-item">Cerrar Sesion</a>
+                                      <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="dropdown-item">Cerrar Sesion</a>
                                   </li>
                             </div>
                         </ul>

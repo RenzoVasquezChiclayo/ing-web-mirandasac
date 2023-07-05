@@ -36,9 +36,11 @@ import com.proyecto_web.ing_web.entities.TipoCliente;
 import com.proyecto_web.ing_web.entities.TipoProveedor;
 import com.proyecto_web.ing_web.entities.Unidad;
 import com.proyecto_web.ing_web.entities.Usuario;
+import com.proyecto_web.ing_web.entities.Factura;
 import com.proyecto_web.ing_web.entities.Vehiculo;
 import com.proyecto_web.ing_web.implementacion.EmpleadoServiceImpl;
 import com.proyecto_web.ing_web.servicios.ClienteService;
+import com.proyecto_web.ing_web.servicios.ConductorService;
 import com.proyecto_web.ing_web.servicios.EmpleadoService;
 import com.proyecto_web.ing_web.servicios.PersonaService;
 import com.proyecto_web.ing_web.servicios.ProveedorService;
@@ -101,6 +103,12 @@ public class InicioController {
 
     @Autowired
     private IConductorRepo conductor_repo;
+
+    @Autowired
+    private IFacturaRepo factura_repo;
+
+    @Autowired
+    private ConductorService conducto_service;
     
     @Autowired
     private UserService usuario_service;
@@ -706,7 +714,7 @@ public class InicioController {
 
     @GetMapping("/lista-conductor")
     public String lista_conductor(Model model){
-        List<Conductor> lista_conductor = conductor_repo.findAll();
+        List<Conductor> lista_conductor = conducto_service.listaConductores();
         model.addAttribute("conductor", lista_conductor);
         return "sistema/conductores/lista_conductores";
     }
@@ -1288,12 +1296,14 @@ public class InicioController {
     @GetMapping("/registrar-envio")
     public String showregistrarEnvio(Model model){
         try {
+            Envio nuevo_envio = new Envio();
             List<Cliente> clientes = cliente_repo.findAll();
             List<Ruta> rutas = ruta_repo.findAll();
             List<Vehiculo> vehiculos = vehiculo_repo.findAll();
             List<Producto> productos = producto_repo.findAll();
             List<Conductor> conductores = conductor_repo.findAll();
             
+            model.addAttribute("envio", nuevo_envio);
             model.addAttribute("clientes", clientes);
             model.addAttribute("rutas", rutas);
             model.addAttribute("vehiculos", vehiculos);
@@ -1314,15 +1324,15 @@ public class InicioController {
             RedirectAttributes redirectAttrs){
         if (bindingResult.hasErrors()) {
             redirectAttrs
-                    .addFlashAttribute("mensaje", "Error")
+                    .addFlashAttribute("mensaje", bindingResult)
                     .addFlashAttribute("clase", "warning");
-            return "redirect:/sistema/agregar-ruta";
+            return "redirect:/sistema/registrar-envio";
         }
         try {
-            envio.setFecha_recogida(new Date());
-            envio.setFecha_entrega(new Date());
+            envio.setFecha_recogida(localDate);
             envio.setCreatedAt(fecha);
             envio.setUpdatedAt(fecha);
+            envio.setEstado(true);
             envio_repo.save(envio);
             redirectAttrs
                     .addFlashAttribute("mensaje", "Agregado correctamente")
@@ -1331,12 +1341,70 @@ public class InicioController {
             return "redirect:/sistema/inicio";
         } catch (Exception e) {
             redirectAttrs
-                    .addFlashAttribute("mensaje", "Error exception")
+                    .addFlashAttribute("mensaje", e)
                     .addFlashAttribute("clase", "warning");
             return "redirect:/sistema/inicio";
 
         }
 
+    }
+    //----------FACTURAS -------------------------------------
+    @GetMapping("/ver-agregar-factura")
+    public String showAgregarFactura(Model model){
+        try {
+            Factura factura = new Factura();
+            
+            model.addAttribute("factura", factura);
+
+            return "sistema/facturas/nueva_factura";
+        } catch (Exception e) {
+            return "redirect:/sistema/inicio";
+        }
+        
+    }
+
+    @PostMapping("/registrar-factura")
+    public String registrarFactura(
+            @ModelAttribute("factura") Factura factura,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttrs){
+        if (bindingResult.hasErrors()) {
+            redirectAttrs
+                    .addFlashAttribute("mensaje", bindingResult)
+                    .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/listar-factura";
+        }
+        try {
+            factura.setCreatedAt(fecha);
+            factura.setUpdatedAt(fecha);
+            factura_repo.save(factura);
+            redirectAttrs
+                    .addFlashAttribute("mensaje", "Agregada correctamente")
+                    .addFlashAttribute("clase", "Warning problem");
+
+            return "redirect:/sistema/listar-factura";
+        } catch (Exception e) {
+            redirectAttrs
+                    .addFlashAttribute("mensaje", e)
+                    .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/inicio";
+
+        }
+
+    }
+
+    @GetMapping("/listar-factura")
+    public String listarFacturas(Model model){
+        try {
+            List<Factura> facturas = factura_repo.findAll();
+            
+            model.addAttribute("facturas", facturas);
+
+            return "sistema/facturas/lista_facturas";
+        } catch (Exception e) {
+            return "redirect:/sistema/inicio";
+        }
+        
     }
     //--------------------------------------------------------------------------------------
 }

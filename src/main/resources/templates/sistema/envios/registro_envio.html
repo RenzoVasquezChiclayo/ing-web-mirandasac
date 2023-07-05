@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/inicio.css}">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script th:inline="javascript">
         /*<![CDATA[*/
         const productos = /*[[${productos}]]*/ [];
@@ -55,13 +54,10 @@
                                 <label for="">Conductor</label>
                             </div>
                             <div class="col-4 align-items-end">
-                                <input class="form-control" type="text" th:field="${envio.conductorId}" name="conductor_envio" id="conductor_envio" value="" readonly>
+                                <select class="form-control" th:field="${envio.conductorId}" name="conductor_envio" id="conductor_envio">
+                                    <option th:each="cond : ${conductores}" th:text="${cond.getPersonaId().getApellidos() + ' ' + cond.getPersonaId().getNombres()}" th:value="${cond.id}"></option>
+                                </select>
                             </div>
-<!--                            <div class="col-4 align-items-end">-->
-<!--                                <select class="form-control" name="conductor_envio" id="conductor_envio">-->
-<!--                                    <option th:each="cond : ${conductores}" th:text="${cond.getPersonaId().getApellidos() + ' ' + cond.getPersonaId().getNombres()}" th:value="${cond.id}"></option>-->
-<!--                                </select>-->
-<!--                            </div>-->
                             <hr style="border: 1px black;"/>
                         </div>
                         <div class="row">

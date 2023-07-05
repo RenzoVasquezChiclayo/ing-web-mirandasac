@@ -1,6 +1,9 @@
 package com.proyecto_web.ing_web.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
+
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="envio_productos")
+@Table(name="envio")
 public class Envio {
     
     @Id
@@ -19,7 +22,7 @@ public class Envio {
     private Integer id;
 
     @Column(name = "fecha_recogida", nullable = false)
-    private Date fecha_recogida;
+    private LocalDate fecha_recogida;
 
     @Column(name = "direccion_recogida", nullable = false)
     private String direccion_recogida;
@@ -31,7 +34,7 @@ public class Envio {
     private String pais_recogida;
 
     @Column(name = "fecha_entrega", nullable = false)
-    private Date fecha_entrega;
+    private LocalDate fecha_entrega;
 
     @Column(name = "direccion_entrega", nullable = false)
     private String direccion_entrega;
@@ -66,8 +69,8 @@ public class Envio {
     public Envio() {
     }
 
-    public Envio(Integer id, Date fecha_recogida, String direccion_recogida, String ciudad_recogida,
-            String pais_recogida, Date fecha_entrega, String direccion_entrega, String ciudad_entrega,
+    public Envio(Integer id, LocalDate fecha_recogida, String direccion_recogida, String ciudad_recogida,
+            String pais_recogida, LocalDate fecha_entrega, String direccion_entrega, String ciudad_entrega,
             String pais_entrega, Boolean estado, Date createdAt, Date updatedAt, Cliente clienteId, Ruta rutaId,
             Conductor conductorId, Vehiculo vehiculoId) {
         this.id = id;
@@ -96,11 +99,11 @@ public class Envio {
         this.id = id;
     }
 
-    public Date getFecha_recogida() {
+    public LocalDate getFecha_recogida() {
         return fecha_recogida;
     }
 
-    public void setFecha_recogida(Date fecha_recogida) {
+    public void setFecha_recogida(LocalDate fecha_recogida) {
         this.fecha_recogida = fecha_recogida;
     }
 
@@ -128,11 +131,11 @@ public class Envio {
         this.pais_recogida = pais_recogida;
     }
 
-    public Date getFecha_entrega() {
+    public LocalDate getFecha_entrega() {
         return fecha_entrega;
     }
 
-    public void setFecha_entrega(Date fecha_entrega) {
+    public void setFecha_entrega(LocalDate fecha_entrega) {
         this.fecha_entrega = fecha_entrega;
     }
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Registrar factura</title>
+</head>
+<body>
+  <div class="container-fluid" layout:fragment="contenido">
+    <div class="contenido-clientes">
+        <div class="row">
+            <div class="col-10">
+                <form th:action="@{'/sistema/registrar-factura'}" method="post">
+                    <h2>Registro de factura</h2>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                          <label for="">Observaciones</label>
+                          <textarea class="form-control" th:field="${factura.observaciones}" name="observaciones_fact" id="observaciones_fact" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="">Descripcion</label>
+                            <textarea class="form-control" th:field="${factura.descripcion}" name="descripcion_fact" id="descripcion_fact" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <label>Codigo de Envio</label>
+                      <div class="col-6 align-items-end">
+                        <select class="form-control" th:field="${factura.envioId}" name="factura_envio" id="factura_envio">
+                            <option th:each="env : ${envios}" th:text="${env.id}" th:value="${env.id}"></option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <button class="btn btn-success" >Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+</body>
+</html>
