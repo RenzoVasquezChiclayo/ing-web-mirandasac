@@ -19,13 +19,13 @@
         <div class="contenido-clientes">
             <div class="row">
                 <div class="col-10">
-                    <form th:action="@{'/sistema/agregar-producto'}" method="post">
+                    <form th:action="@{'/sistema/definir-envio'}" method="post">
                         <div class="row">
                             <div class="col-3">
                                 <label for="">Cliente</label>
                             </div>
                             <div class="col-4 align-items-end">
-                                <select class="form-control" name="cliente_envio" id="cliente_envio">
+                                <select class="form-control" th:field="${envio.clienteId}" name="cliente_envio" id="cliente_envio">
                                     <option th:each="cli : ${clientes}" th:text="${cli.getPersonaId().getApellidos() + ' ' + cli.getPersonaId().getNombres()}" th:value="${cli.id}"></option>
                                 </select>
                             </div>
@@ -35,7 +35,7 @@
                                 <label for="">Ruta</label>
                             </div>
                             <div class="col-4 align-items-end">
-                                <select class="form-control" name="ruta_envio" id="ruta_envio">
+                                <select class="form-control" th:field="${envio.rutaId}" name="ruta_envio" id="ruta_envio">
                                     <option th:each="rt : ${rutas}" th:text="${rt.destino}" th:value="${rt.id}"></option>
                                 </select>
                             </div>
@@ -45,7 +45,7 @@
                                 <label for="">Vehiculo</label>
                             </div>
                             <div class="col-4 align-items-end">
-                                <select class="form-control" name="vehiculo_envio" id="vehiculo_envio">
+                                <select class="form-control" th:field="${envio.vehiculoId}" name="vehiculo_envio" id="vehiculo_envio">
                                     <option th:each="vec : ${vehiculos}" th:text="${vec.placa + '-' + vec.modelo}" th:value="${vec.id}"></option>
                                 </select>
                             </div>
@@ -55,7 +55,7 @@
                                 <label for="">Conductor</label>
                             </div>
                             <div class="col-4 align-items-end">
-                                <input class="form-control" type="text" name="conductor_envio" id="conductor_envio" value="" readonly>
+                                <input class="form-control" type="text" th:field="${envio.conductorId}" name="conductor_envio" id="conductor_envio" value="" readonly>
                             </div>
 <!--                            <div class="col-4 align-items-end">-->
 <!--                                <select class="form-control" name="conductor_envio" id="conductor_envio">-->
@@ -63,6 +63,40 @@
 <!--                                </select>-->
 <!--                            </div>-->
                             <hr style="border: 1px black;"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="">Fecha de Entrega</label>
+                                <input class="form-control" type="date" id="date_entrega" name="date_entrega" th:field="${envio.fecha_entrega}">
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="">Direccion de recogida</label>
+                                    <input class="form-control" type="text" id="direccion_recogida" name="direccion_recogida" th:field="${envio.direccion_recogida}">
+                                </div>
+                                <div class="col-4">
+                                    <label for="">Ciudad de recogida</label>
+                                    <input class="form-control" type="text" id="ciudad_recogida" name="ciudad_recogida" th:field="${envio.ciudad_recogida}">
+                                </div>
+                                <div class="col-4">
+                                    <label for="">Pais de recogida</label>
+                                    <input class="form-control" type="text" id="pais_recogida" name="pais_recogida" th:field="${envio.pais_recogida}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="">Direccion de entrega</label>
+                                    <input class="form-control" type="text" id="direccion_entrega" name="direccion_entrega" th:field="${envio.direccion_entrega}">
+                                </div>
+                                <div class="col-4">
+                                    <label for="">Ciudad de entrega</label>
+                                    <input class="form-control" type="text" id="ciudad_entrega" name="ciudad_entrega" th:field="${envio.ciudad_entrega}">
+                                </div>
+                                <div class="col-4">
+                                    <label for="">Pais de entrega</label>
+                                    <input class="form-control" type="text" id="pais_entrega" name="pais_entrega" th:field="${envio.pais_entrega}">
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <h3>Productos</h3>

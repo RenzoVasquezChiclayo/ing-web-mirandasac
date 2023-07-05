@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.proyecto_web.ing_web.repositorios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,18 +38,6 @@ import com.proyecto_web.ing_web.entities.Unidad;
 import com.proyecto_web.ing_web.entities.Usuario;
 import com.proyecto_web.ing_web.entities.Vehiculo;
 import com.proyecto_web.ing_web.implementacion.EmpleadoServiceImpl;
-import com.proyecto_web.ing_web.repositorios.IAlmacenRepo;
-import com.proyecto_web.ing_web.repositorios.ICargoRepo;
-import com.proyecto_web.ing_web.repositorios.ICategoriaRepo;
-import com.proyecto_web.ing_web.repositorios.IConductorRepo;
-import com.proyecto_web.ing_web.repositorios.IEmpleadoRepo;
-import com.proyecto_web.ing_web.repositorios.IProductoRepo;
-import com.proyecto_web.ing_web.repositorios.IRutaRepo;
-import com.proyecto_web.ing_web.repositorios.ITipoClienteRepo;
-import com.proyecto_web.ing_web.repositorios.ITipoProveedorRepo;
-import com.proyecto_web.ing_web.repositorios.IUnidadRepo;
-import com.proyecto_web.ing_web.repositorios.IClienteRepo;
-import com.proyecto_web.ing_web.repositorios.IVehiculoRepo;
 import com.proyecto_web.ing_web.servicios.ClienteService;
 import com.proyecto_web.ing_web.servicios.EmpleadoService;
 import com.proyecto_web.ing_web.servicios.PersonaService;
@@ -115,6 +104,9 @@ public class InicioController {
     
     @Autowired
     private UserService usuario_service;
+
+    @Autowired
+    private IEnvioRepo envio_repo;
 
     @GetMapping("/inicio")
     public String inicio(Model model,HttpSession session){
@@ -1294,7 +1286,7 @@ public class InicioController {
 
     //----------REGISTRO ENVIO -------------------------------------
     @GetMapping("/registrar-envio")
-    public String registrarEnvio(Model model){
+    public String showregistrarEnvio(Model model){
         try {
             List<Cliente> clientes = cliente_repo.findAll();
             List<Ruta> rutas = ruta_repo.findAll();
@@ -1313,6 +1305,38 @@ public class InicioController {
             return "redirect:/sistema/inicio";
         }
         
+    }
+
+    @PostMapping("/definir-envio")
+    public String registrarEnvio(
+            @ModelAttribute("envio") Envio envio,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttrs){
+        if (bindingResult.hasErrors()) {
+            redirectAttrs
+                    .addFlashAttribute("mensaje", "Error")
+                    .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/agregar-ruta";
+        }
+        try {
+            envio.setFecha_recogida(new Date());
+            envio.setFecha_entrega(new Date());
+            envio.setCreatedAt(fecha);
+            envio.setUpdatedAt(fecha);
+            envio_repo.save(envio);
+            redirectAttrs
+                    .addFlashAttribute("mensaje", "Agregado correctamente")
+                    .addFlashAttribute("clase", "Warning problem");
+
+            return "redirect:/sistema/inicio";
+        } catch (Exception e) {
+            redirectAttrs
+                    .addFlashAttribute("mensaje", "Error exception")
+                    .addFlashAttribute("clase", "warning");
+            return "redirect:/sistema/inicio";
+
+        }
+
     }
     //--------------------------------------------------------------------------------------
 }
