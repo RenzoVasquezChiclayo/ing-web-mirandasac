@@ -1,7 +1,7 @@
 let productList = [];
         let totalPrice = 0;
 
-        let productosAgregados = [];
+        let productosAgregados = new Set();
 
         document.addEventListener("DOMContentLoaded", function() {
             // Obtener los productos del modelo y convertirlos a un objeto JavaScript
@@ -24,32 +24,48 @@ let productList = [];
             const productoId = parseInt(productoSelect.value);
                 
             const producto = productList.find(p => p.id === productoId);
+
+            const newAgregado = {id:producto.id, precio: precio, cantidad: cantidad};
                 
             const subtotal = precio * cantidad;
-            if (productosAgregados.filter(p=>{p == productoId}).length > 0) {
+            if (productosAgregados.has(p => {p.id === productoId})) {
                 alert("El producto ya ha sido agregado");
-                return;
+                return null;
             }
-            alert(productosAgregados.filter(p=>{p == productoId})); 
-            productosAgregados.push(productoId);
-                
+            console.log(productosAgregados.has(productoId));
+            productosAgregados.add(newAgregado);
+
             const tablaProductos = document.getElementById("tableProductosEnvio");
             const tablaBody = tablaProductos.getElementsByTagName("tbody")[0];
                 
             const fila = document.createElement("tr");
             fila.innerHTML = `
-                <td>${productosAgregados.length}</td>
+                <td>${productosAgregados.size}</td>
                 <td>${producto.nombre}</td>
                 <td>${producto.descripcion}</td>
                 <td>${cantidad}</td>
                 <td>${precio}</td>
                 <td>${subtotal}</td>
-                <td><button type="button" class="btn btn-danger">Eliminar</button></td>
+                <td>
+                <button type="button" class="btn btn-warning"><i class='bx bxs-edit bx-xs'></i></button>
+                <button type="button" class="btn btn-danger"><i class='bx bxs-trash bx-xs'></i></button>
+                </td>
             `;
             tablaBody.appendChild(fila);
+            getTotal(subtotal);
         }
 
         function getTotal(subtotal){
             totalPrice += subtotal;
             document.getElementById("total_envio").value = totalPrice;
+        }
+
+        function cleanFields(){
+
+            document.getElementById("cantidad_producto").value="0";
+            document.getElementById("precio_producto").value="0";
+        }
+
+        function sendData(){
+            document.getElementById("field_data").value = productosAgregados;
         }

@@ -630,14 +630,16 @@ public class InicioController {
         HttpSession session){
         if (bindingResult.hasErrors()) {
             redirectAttrs
-                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("mensaje", "Error binding")
                 .addFlashAttribute("clase", "warning");
             return "redirect:/sistema/agregar-almacen";
         }
         try {
             Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
+
+            System.out.println("User logged: "+ usu_logueado);
             Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
-            System.out.print(find_empleado.getPersonaId().getCorreo());
+            System.out.print("Inside try: "+find_empleado.getPersonaId().getCorreo());
             almacen.setEstado(true);
             almacen.setCreatedAt(fecha);
             almacen.setUpdatedAt(fecha);
@@ -650,7 +652,7 @@ public class InicioController {
             return "redirect:/sistema/lista-almacen";
         } catch (Exception e) {
             redirectAttrs
-                .addFlashAttribute("mensaje", "Error")
+                .addFlashAttribute("mensaje", "Error exception")
                 .addFlashAttribute("clase", "warning");
             return "redirect:/sistema/lista-almacen";
             
@@ -727,7 +729,7 @@ public class InicioController {
     }
 
     @PostMapping("/agregar-conductor")
-    public String agregar_almacen(@ModelAttribute("conductor") Conductor conductor,
+    public String agregar_conductor(@ModelAttribute("conductor") Conductor conductor,
         @ModelAttribute("persona") Persona persona,
         BindingResult bindingResult,
         RedirectAttributes redirectAttrs,
@@ -1298,11 +1300,13 @@ public class InicioController {
             List<Ruta> rutas = ruta_repo.findAll();
             List<Vehiculo> vehiculos = vehiculo_repo.findAll();
             List<Producto> productos = producto_repo.findAll();
+            List<Conductor> conductores = conductor_repo.findAll();
             
             model.addAttribute("clientes", clientes);
             model.addAttribute("rutas", rutas);
             model.addAttribute("vehiculos", vehiculos);
             model.addAttribute("productos", productos);
+            model.addAttribute("conductores", conductores);
 
             return "sistema/envios/registro_envio";
         } catch (Exception e) {

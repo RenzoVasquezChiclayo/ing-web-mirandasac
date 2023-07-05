@@ -57,6 +57,11 @@
                             <div class="col-4 align-items-end">
                                 <input class="form-control" type="text" name="conductor_envio" id="conductor_envio" value="" readonly>
                             </div>
+<!--                            <div class="col-4 align-items-end">-->
+<!--                                <select class="form-control" name="conductor_envio" id="conductor_envio">-->
+<!--                                    <option th:each="cond : ${conductores}" th:text="${cond.getPersonaId().getApellidos() + ' ' + cond.getPersonaId().getNombres()}" th:value="${cond.id}"></option>-->
+<!--                                </select>-->
+<!--                            </div>-->
                             <hr style="border: 1px black;"/>
                         </div>
                         <div class="row">
@@ -107,7 +112,7 @@
                                 <tbody></tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="4">Total</th>
+                                        <th colspan="5" style="text-align: end">Total</th>
                                         <th> <input id="total_envio" type="number" value="0" readonly></th>
                                     </tr>
                                 </tfoot>
@@ -116,7 +121,7 @@
 
                         <div class="row">
                             <div class="col-5">
-                                <button class="btn btn-success" onclick="">Guardar</button>
+                                <button class="btn btn-success" onclick="sendData()">Guardar</button>
                             </div>
                         </div>
                     </form>
@@ -124,69 +129,5 @@
             </div>
         </div>
     </div>
-    
-    <!-- <script type="text/javascript">
-        let productList = [];
-        let totalPrice = 0;
-
-        let productosAgregados = Set();
-
-        document.addEventListener("DOMContentLoaded", function() {
-            // Obtener los productos del modelo y convertirlos a un objeto JavaScript
-            const productos = "[[${productos}]]";
-            productos.forEach(producto => {
-                    const newProduct = {
-                        id:producto.id,
-                        nombre:producto.nombre,
-                        precio: 0
-                    };
-                    productList.add(newProduct);
-                });
-        });
-
-        function addProductToTable(){
-            const productoSelect = document.getElementById("producto_envio");
-            const cantidadInput = document.getElementById("cantidad_producto");
-                
-            const productoId = parseInt(productoSelect.value);
-            const cantidad = parseInt(cantidadInput.value);
-                
-            const producto = productList.find(p => p.id === productoId);
-                
-            if (!producto) {
-                alert("Producto no encontrado");
-                return;
-            }
-                
-            const subtotal = producto.precio * cantidad;
-                
-            if (productosAgregados.has(productoId)) {
-                alert("El producto ya ha sido agregado");
-                return;
-            }
-                
-            productosAgregados.add(productoId);
-                
-            const tablaProductos = document.getElementById("tableProductosEnvio");
-            const tablaBody = tablaProductos.getElementsByTagName("tbody")[0];
-                
-            const fila = document.createElement("tr");
-            fila.innerHTML = `
-                <td>${producto.id}</td>
-                <td>${producto.nombre}</td>
-                <td>${cantidad}</td>
-                <td>${producto.precio}</td>
-                <td>${subtotal}</td>
-                <td><button type="button" class="btn btn-danger">Eliminar</button></td>
-            `;
-            tablaBody.appendChild(fila);
-        }
-
-        function getTotal(subtotal){
-            totalPrice += subtotal;
-            document.getElementById("total_envio").value = totalPrice;
-        }
-    </script> -->
-    
 </body>
 </html>
