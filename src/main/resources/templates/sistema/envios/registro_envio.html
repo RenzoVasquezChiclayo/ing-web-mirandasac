@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const productos = /*[[${productos}]]*/ [];
+        /*]]>*/
+    </script>
+    <script type="text/javascript" th:src="@{/js/registro_envio.js}"></script>
+    <title>Envios</title>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+        <div class="contenido-clientes">
+            <div class="row">
+                <div class="col-10">
+                    <form th:action="@{'/sistema/agregar-producto'}" method="post">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Cliente</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <select class="form-control" name="cliente_envio" id="cliente_envio">
+                                    <option th:each="cli : ${clientes}" th:text="${cli.getPersonaId().getApellidos() + ' ' + cli.getPersonaId().getNombres()}" th:value="${cli.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Ruta</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <select class="form-control" name="ruta_envio" id="ruta_envio">
+                                    <option th:each="rt : ${rutas}" th:text="${rt.destino}" th:value="${rt.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Vehiculo</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <select class="form-control" name="vehiculo_envio" id="vehiculo_envio">
+                                    <option th:each="vec : ${vehiculos}" th:text="${vec.placa + '-' + vec.modelo}" th:value="${vec.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="">Conductor</label>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <input class="form-control" type="text" name="conductor_envio" id="conductor_envio" value="" readonly>
+                            </div>
+                            <hr style="border: 1px black;"/>
+                        </div>
+                        <div class="row">
+                            <h3>Productos</h3>
+                            <div class="col-4 align-items-end">
+                                <select class="form-control" name="producto_envio" id="producto_envio">
+                                    <option th:each="prod : ${productos}" th:text="${prod.nombre}" th:value="${prod.id}"></option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <label for="">Cantidad</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <input class="form-control" type="number" name="cantidad_producto" id="cantidad_producto" min="0" max="50" value="0" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-primary" onclick="addProductToTable();">Agregar</button>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <label for="">Precio de envio</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <input class="form-control" type="number" name="precio_producto" id="precio_producto" min="0" max="100" value="0" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h3>Detalle del envio</h3>
+                            <table id="tableProductosEnvio" class="table table-light">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nombre del producto</th>
+                                        <th>Descripcion del producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                        <th>Subtotal</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4">Total</th>
+                                        <th> <input id="total_envio" type="number" value="0" readonly></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-success" onclick="">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- <script type="text/javascript">
+        let productList = [];
+        let totalPrice = 0;
+
+        let productosAgregados = Set();
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Obtener los productos del modelo y convertirlos a un objeto JavaScript
+            const productos = "[[${productos}]]";
+            productos.forEach(producto => {
+                    const newProduct = {
+                        id:producto.id,
+                        nombre:producto.nombre,
+                        precio: 0
+                    };
+                    productList.add(newProduct);
+                });
+        });
+
+        function addProductToTable(){
+            const productoSelect = document.getElementById("producto_envio");
+            const cantidadInput = document.getElementById("cantidad_producto");
+                
+            const productoId = parseInt(productoSelect.value);
+            const cantidad = parseInt(cantidadInput.value);
+                
+            const producto = productList.find(p => p.id === productoId);
+                
+            if (!producto) {
+                alert("Producto no encontrado");
+                return;
+            }
+                
+            const subtotal = producto.precio * cantidad;
+                
+            if (productosAgregados.has(productoId)) {
+                alert("El producto ya ha sido agregado");
+                return;
+            }
+                
+            productosAgregados.add(productoId);
+                
+            const tablaProductos = document.getElementById("tableProductosEnvio");
+            const tablaBody = tablaProductos.getElementsByTagName("tbody")[0];
+                
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+                <td>${producto.id}</td>
+                <td>${producto.nombre}</td>
+                <td>${cantidad}</td>
+                <td>${producto.precio}</td>
+                <td>${subtotal}</td>
+                <td><button type="button" class="btn btn-danger">Eliminar</button></td>
+            `;
+            tablaBody.appendChild(fila);
+        }
+
+        function getTotal(subtotal){
+            totalPrice += subtotal;
+            document.getElementById("total_envio").value = totalPrice;
+        }
+    </script> -->
+    
+</body>
+</html>

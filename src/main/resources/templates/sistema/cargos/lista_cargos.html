@@ -30,12 +30,12 @@
                 <td>
                   <div class="row">
                       <div class="col-3">
-                          <a class="btn btn-warning"  th:href="@{'/sistema/ver-editar-cargo/' + ${car.id}}"><i class="fa fa-edit"></i></a>
+                          <a class="btn btn-warning"  th:href="@{'/sistema/ver-editar-cargo/' + ${car.id}}">Editar</a>
                       </div>
                       <div class="col-3">
                           <form th:action="@{/sistema/eliminar-cargo}" method="post" style="display:block;">
                               <input type="hidden" name="txtid_cargo" th:value="${car.id}"/>
-                              <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                              <button type="submit" class="btn btn-danger">Eliminar</button>
                           </form>
                       </div>
                 </td>

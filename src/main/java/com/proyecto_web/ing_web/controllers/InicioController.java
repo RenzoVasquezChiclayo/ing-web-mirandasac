@@ -26,6 +26,7 @@ import com.proyecto_web.ing_web.entities.Categoria;
 import com.proyecto_web.ing_web.entities.Cliente;
 import com.proyecto_web.ing_web.entities.Conductor;
 import com.proyecto_web.ing_web.entities.Empleado;
+import com.proyecto_web.ing_web.entities.Envio;
 import com.proyecto_web.ing_web.entities.Persona;
 import com.proyecto_web.ing_web.entities.Producto;
 import com.proyecto_web.ing_web.entities.Proveedor;
@@ -46,6 +47,7 @@ import com.proyecto_web.ing_web.repositorios.IRutaRepo;
 import com.proyecto_web.ing_web.repositorios.ITipoClienteRepo;
 import com.proyecto_web.ing_web.repositorios.ITipoProveedorRepo;
 import com.proyecto_web.ing_web.repositorios.IUnidadRepo;
+import com.proyecto_web.ing_web.repositorios.IClienteRepo;
 import com.proyecto_web.ing_web.repositorios.IVehiculoRepo;
 import com.proyecto_web.ing_web.servicios.ClienteService;
 import com.proyecto_web.ing_web.servicios.EmpleadoService;
@@ -92,6 +94,9 @@ public class InicioController {
 
     @Autowired
     private IProductoRepo producto_repo;
+    
+    @Autowired
+    private IClienteRepo cliente_repo;
 
     @Autowired
     private IRutaRepo ruta_repo;
@@ -762,19 +767,19 @@ public class InicioController {
                     .addFlashAttribute("mensaje", "Agregado correctamente")
                     .addFlashAttribute("clase", "success");
 
-                return "redirect:/sistema/lista_conductores";
+                return "redirect:/sistema/lista_conductor";
             }else{
                 redirectAttrs
                     .addFlashAttribute("mensaje", "Error al agregar el conductor")
                     .addFlashAttribute("clase", "warning");
-                return "redirect:/sistema/lista_conductores";
+                return "redirect:/sistema/lista_conductor";
             }
             
         } catch (Exception e) {
             redirectAttrs
                 .addFlashAttribute("mensaje", "Error")
                 .addFlashAttribute("clase", "warning");
-            return "redirect:/sistema/lista_conductores";
+            return "redirect:/sistema/lista_conductor";
             
         }
         
@@ -1285,5 +1290,25 @@ public class InicioController {
         return "redirect:/sistema/lista-ruta";
     }
 
+    //----------REGISTRO ENVIO -------------------------------------
+    @GetMapping("/registrar-envio")
+    public String registrarEnvio(Model model){
+        try {
+            List<Cliente> clientes = cliente_repo.findAll();
+            List<Ruta> rutas = ruta_repo.findAll();
+            List<Vehiculo> vehiculos = vehiculo_repo.findAll();
+            List<Producto> productos = producto_repo.findAll();
+            
+            model.addAttribute("clientes", clientes);
+            model.addAttribute("rutas", rutas);
+            model.addAttribute("vehiculos", vehiculos);
+            model.addAttribute("productos", productos);
+
+            return "sistema/envios/registro_envio";
+        } catch (Exception e) {
+            return "redirect:/sistema/inicio";
+        }
+        
+    }
     //--------------------------------------------------------------------------------------
 }
