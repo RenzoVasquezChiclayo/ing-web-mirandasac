@@ -11,6 +11,14 @@
         /*]]>*/
     </script>
     <script type="text/javascript" th:src="@{/js/registro_envio.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ingreso.js}"></script>
+    <style>
+        #map{
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+      
     <title>Envios</title>
 </head>
 <body>
@@ -21,21 +29,19 @@
                     <form th:action="@{'/sistema/definir-envio'}" method="post">
                         <div class="row">
                             <div class="col-3">
+                                <label for="">Codigo</label>
+                            </div>
+                            <div class="col-2 align-items-end">
+                                <input class="form-control" type="text" name="codigo_envio" id="codigo_envio" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
                                 <label for="">Cliente</label>
                             </div>
                             <div class="col-4 align-items-end">
                                 <select class="form-control" th:field="${envio.clienteId}" name="cliente_envio" id="cliente_envio">
                                     <option th:each="cli : ${clientes}" th:text="${cli.getPersonaId().getApellidos() + ' ' + cli.getPersonaId().getNombres()}" th:value="${cli.id}"></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="">Ruta</label>
-                            </div>
-                            <div class="col-4 align-items-end">
-                                <select class="form-control" th:field="${envio.rutaId}" name="ruta_envio" id="ruta_envio">
-                                    <option th:each="rt : ${rutas}" th:text="${rt.destino}" th:value="${rt.id}"></option>
                                 </select>
                             </div>
                         </div>
@@ -61,6 +67,10 @@
                             <hr style="border: 1px black;"/>
                         </div>
                         <div class="row">
+                            <div class="col-4">
+                                <label for="">Fecha de Recogida</label>
+                                <input class="form-control" type="date" id="date_recogida" name="date_recogida" th:field="${envio.fecha_recogida}">
+                            </div>
                             <div class="col-4">
                                 <label for="">Fecha de Entrega</label>
                                 <input class="form-control" type="date" id="date_entrega" name="date_entrega" th:field="${envio.fecha_entrega}">
@@ -93,62 +103,111 @@
                                     <input class="form-control" type="text" id="pais_entrega" name="pais_entrega" th:field="${envio.pais_entrega}">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <h3>Productos</h3>
-                            <div class="col-4 align-items-end">
-                                <select class="form-control" name="producto_envio" id="producto_envio">
-                                    <option th:each="prod : ${productos}" th:text="${prod.nombre}" th:value="${prod.id}"></option>
-                                </select>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="ingreso_envio" name="ingreso_envio" onclick="validarIngreso();">
+                                        <label class="form-check-label" >Ingreso</label>
+                                      </div>
+                                </div>
+                                <div class="col-4" id="select_ingreso" hidden>
+                                    <label class="form-check-label" >Codigo Ingreso</label>
+                                    <select class="form-control"  name="selectIngreso_envio" id="selectIngreso_envio">
+                                        <option th:each="ing : ${ingresos}" th:text="${ing.codigo}" th:value="${ing.id}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <label for="">Tarifa</label>
+                                    <input class="form-control" type="number" id="tarifa_envio" name="tarifa_envio">
+                                </div>
                             </div>
-                            <div class="col-4">
+                            <!-- INGRESO -->
+                            <div class="row justify-content-end" id="div_ingreso" hidden>
                                 <div class="row">
-                                    <div class="col-8">
+                                    <div class="col-2">
+                                        <label for="">Codigo</label>
+                                    </div>
+                                    <div class="col-2">
+                                        <input class="form-control" type="text" name="ingreso_codigo" id="ingreso_codigo" value="">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 align-items-end">
+                                        <p>Producto</p>
+                                        <select class="form-control" name="producto_ingreso" id="producto_ingreso">
+                                            <option th:each="prod : ${productos}" th:text="${prod.nombre}" th:value="${prod.id}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4 align-items-end">
+                                        <p>Cliente</p>
+                                        <select class="form-control" name="cliente_ingreso" id="cliente_ingreso">
+                                            <option th:each="cli : ${clientes}" th:text="${cli.getPersonaId().getApellidos()+' '+cli.getPersonaId().getNombres()}" th:value="${cli.id}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 align-items-end">
+                                        <p>Unidad</p>
+                                        <select class="form-control" name="unidad_ingreso" id="unidad_ingreso">
+                                            <option th:each="uni : ${unidades}" th:text="${uni.nombre}" th:value="${uni.id}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4 align-items-end">
+                                        <p>Almacen</p>
+                                        <select class="form-control" name="almacen_ingreso" id="almacen_ingreso">
+                                            <option th:each="alm : ${almacenes}" th:text="${alm.nombre}" th:value="${alm.id}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
                                         <label for="">Cantidad</label>
+                                        <input class="form-control" type="number" name="ingreso_stock" id="ingreso_stock" value="">
                                     </div>
                                     <div class="col-4">
-                                        <input class="form-control" type="number" name="cantidad_producto" id="cantidad_producto" min="0" max="50" value="0" required>
+                                        <label for="">Descripcion</label>
+                                        <input class="form-control" type="text" name="ingreso_desc" id="ingreso_desc" value="">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-4">
-                                <button type="button" class="btn btn-primary" onclick="addProductToTable();">Agregar</button>
-                            </div>
-                            <div class="col-4">
+                                <div class="row justify-content-end">
+                                    <div class="col-4">
+                                        <button type="button" class="btn btn-primary" onclick="addIngresoToTable();">Agregar</button>
+                                    </div>
+                                </div>
                                 <div class="row">
-                                    <div class="col-8">
-                                        <label for="">Precio de envio</label>
-                                    </div>
-                                    <div class="col-4">
-                                        <input class="form-control" type="number" name="precio_producto" id="precio_producto" min="0" max="100" value="0" required>
-                                    </div>
+                                    <h3>Ingresos</h3>
+                                    <table id="tableIngreso" class="table table-light">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Codigo</th>
+                                                <th>Producto</th>
+                                                <th>Almacen</th>
+                                                <th>Cliente</th>
+                                                <th>Unidad</th>
+                                                <th>Cantidad</th>
+                                                <th>Descripcion</th>
+                                                <th>Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
                                 </div>
                             </div>
+                            <!-- ----------------- -->
                         </div>
-                        <div class="row">
-                            <h3>Detalle del envio</h3>
-                            <table id="tableProductosEnvio" class="table table-light">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre del producto</th>
-                                        <th>Descripcion del producto</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>
-                                        <th>Subtotal</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="5" style="text-align: end">Total</th>
-                                        <th> <input id="total_envio" type="number" value="0" readonly></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-
+                        <div id="map"></div>
+                        <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9R47ymIydblFNmbVfV1vlhkmda57qIJQ&callback=initMap">
+                        </script>
+                        <script>
+                            const mapDiv = document.getElementById("map");
+                            let map;
+                            function initMap(){
+                                map = new google.maps.Map(mapDiv,{
+                                    center: { lat: -8.110144, lng: -79.027444 },
+                                    zoom: 13,
+                                });
+                            }
+                        </script>
                         <div class="row">
                             <div class="col-5">
                                 <button class="btn btn-success" onclick="sendData()">Guardar</button>
@@ -159,5 +218,7 @@
             </div>
         </div>
     </div>
+    
 </body>
+
 </html>

@@ -7,19 +7,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 import com.proyecto_web.ing_web.entities.Rol;
 import com.proyecto_web.ing_web.entities.Usuario;
 import com.proyecto_web.ing_web.servicios.UserService;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class IngWebApplication {
 
 	@Autowired
 	private UserService usuarioServicio;
 
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(IngWebApplication.class, args);
 	}

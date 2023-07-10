@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Lista de Ingresos</title>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+      <div class="contenido-clientes">
+        <div class="row">
+          <div class="col-5">
+              <a class="btn btn-success" th:href="@{/sistema/ver-agregar-ingreso}">NUEVO INGRESO</a>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Orden</th>
+              <th scope="col">Codigo</th>
+              <th scope="col">Descripcion</th>
+              <th scope="col">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="ing: ${ingresos}">
+                <td th:text="${ing.id}"></td>
+                <td th:text="${ing.codigo}"></td>
+                <td th:text="${ing.descripcion}"></td>
+                <!-- <td>
+                  <div class="row">
+                      <div class="col-3">
+                          <a class="btn btn-warning"  th:href="@{'/sistema/ver-editar-cargo/' + ${car.id}}">Editar</a>
+                      </div>
+                      <div class="col-3">
+                          <form th:action="@{/sistema/eliminar-cargo}" method="post" style="display:block;">
+                              <input type="hidden" name="txtid_cargo" th:value="${car.id}"/>
+                              <button type="submit" class="btn btn-danger">Eliminar</button>
+                          </form>
+                      </div>
+                </td> -->
+              </tr>
+          </tbody>
+        </table>
+      </div>
+        
+    </div>
+</body>
+</html>

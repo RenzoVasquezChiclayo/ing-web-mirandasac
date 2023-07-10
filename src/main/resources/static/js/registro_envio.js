@@ -40,10 +40,11 @@ let productList = [];
             const fila = document.createElement("tr");
             fila.innerHTML = `
                 <td>${productosAgregados.size}</td>
-                <td>${producto.nombre}</td>
-                <td>${producto.descripcion}</td>
-                <td>${cantidad}</td>
-                <td>${precio}</td>
+                <td><input type="hidden" name="prod_id[]" value="${producto.id}">${producto.id}</td>
+                <td><input type="hidden" name="prod_nombre[]" value="${producto.nombre}">${producto.nombre}</td>
+                <td><input type="hidden" name="prod_descripcion[]" value="${producto.descripcion}">${producto.descripcion}</td>
+                <td><input type="hidden" name="cantidad[]" value="${cantidad}">${cantidad}</td>
+                <td><input type="hidden" name="precio[]" value="${precio}">${precio}</td>
                 <td>${subtotal}</td>
                 <td>
                 <button type="button" class="btn btn-warning"><i class='bx bxs-edit bx-xs'></i></button>
@@ -67,4 +68,17 @@ let productList = [];
 
         function sendData(){
             document.getElementById("field_data").value = productosAgregados;
+        }
+
+        function validarIngreso(){
+            ingresoCheck = document.getElementById("ingreso_envio");
+            div_ingreso = document.getElementById("div_ingreso");
+            select_ingreso = document.getElementById("select_ingreso");
+            if (ingresoCheck.checked) {
+                select_ingreso.hidden = false;
+                div_ingreso.hidden = true;
+            }else{
+                select_ingreso.hidden = true;
+                div_ingreso.hidden = false;
+            }
         }

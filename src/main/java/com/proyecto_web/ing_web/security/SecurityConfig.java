@@ -7,8 +7,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,15 +35,17 @@ public class SecurityConfig{
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                //.csrf()
-                //.disable()
-                //.httpBasic()
-                //.and()
+                .csrf()
+                .disable()
+                .httpBasic()
+                .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/js/**","/css/**","/img/**").permitAll()
+                .requestMatchers("sistema/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -59,8 +63,9 @@ public class SecurityConfig{
                     .logoutSuccessUrl("/login?logout")
                     .permitAll()
                     .and()
-                .sessionManagement();
-
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                    .invalidSessionUrl("/login");
         return http.build();
     }
 }

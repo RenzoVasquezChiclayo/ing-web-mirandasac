@@ -1,4 +1,5 @@
 package com.proyecto_web.ing_web.entities;
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -36,10 +37,10 @@ public class Vehiculo {
     private Double capacidad_carga;
 
     @Column(name = "createdAt", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updatedAt", nullable = false)
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
     @ManyToOne
     private Empleado empleadoId;
@@ -48,7 +49,7 @@ public class Vehiculo {
     }
 
     public Vehiculo(Integer id, String placa, String marca, String modelo, Integer year, String unidad,
-            Double capacidad_carga, Date createdAt, Date updatedAt, Empleado empleadoId) {
+            Double capacidad_carga, LocalDate createdAt, LocalDate updatedAt, Empleado empleadoId) {
         this.id = id;
         this.placa = placa;
         this.marca = marca;
@@ -117,19 +118,19 @@ public class Vehiculo {
         this.capacidad_carga = capacidad_carga;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 

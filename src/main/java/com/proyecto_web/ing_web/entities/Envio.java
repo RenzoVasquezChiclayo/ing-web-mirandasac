@@ -49,10 +49,10 @@ public class Envio {
     private Boolean estado;
 
     @Column(name = "createdAt", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updatedAt", nullable = false)
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
     @ManyToOne
     private Cliente clienteId;
@@ -66,12 +66,15 @@ public class Envio {
     @ManyToOne
     private Vehiculo vehiculoId;
 
+    @ManyToOne
+    private Ingreso ingresoId;
+
     public Envio() {
     }
 
     public Envio(Integer id, LocalDate fecha_recogida, String direccion_recogida, String ciudad_recogida,
             String pais_recogida, LocalDate fecha_entrega, String direccion_entrega, String ciudad_entrega,
-            String pais_entrega, Boolean estado, Date createdAt, Date updatedAt, Cliente clienteId, Ruta rutaId,
+            String pais_entrega, Boolean estado, LocalDate createdAt, LocalDate updatedAt, Cliente clienteId, Ruta rutaId,
             Conductor conductorId, Vehiculo vehiculoId) {
         this.id = id;
         this.fecha_recogida = fecha_recogida;
@@ -171,19 +174,19 @@ public class Envio {
         this.estado = estado;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 

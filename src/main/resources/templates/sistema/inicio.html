@@ -7,9 +7,36 @@
     <title>INICIO</title>
 </head>
 <body>
+  
   <div class="container-fluid" layout:fragment="contenido">
-    <h1>BIENVENIDOS</h1>
-    <h3>AQUI IRAN LOS REPORTES</h3>
+    <div>User: <span sec:authentication="principal.username"></span></div>
+    <div class="row">
+      <div class="col-4">
+        <div class="card" style="width: 18rem; margin: 10px; text-align:center;">
+          <div class="card-body">
+            <h5 class="card-title">Numero Envios</h5>
+            <h1 class="card-text">6</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card" style="width: 18rem; margin: 10px; text-align:center;">
+          <div class="card-body">
+            <h5 class="card-title">Numero Envios</h5>
+            <h1 class="card-text">6</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card" style="width: 18rem; margin: 10px; text-align:center;">
+          <div class="card-body">
+            <h5 class="card-title">Numero Envios</h5>
+            <h1 class="card-text">6</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <!-- <h4 th:text="${usuario_logeado.getUsuario()}"></h4> -->
   </div>
 

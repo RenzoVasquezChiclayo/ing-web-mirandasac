@@ -35,10 +35,10 @@ public class Conductor {
     private LocalDate fecha_vencimiento;
 
     @Column(name = "createdAt", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updatedAt", nullable = false)
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
     @ManyToOne
     private Empleado empleadoId;
@@ -50,7 +50,7 @@ public class Conductor {
     }
 
     public Conductor(Integer id, String observaciones, String descripcion, String licencia, LocalDate fecha_vencimiento,
-            Date createdAt, Date updatedAt, Empleado empleadoId, Persona personaId) {
+    LocalDate createdAt, LocalDate updatedAt, Empleado empleadoId, Persona personaId) {
         this.id = id;
         this.observaciones = observaciones;
         this.descripcion = descripcion;
@@ -102,19 +102,19 @@ public class Conductor {
         this.fecha_vencimiento = fecha_vencimiento;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 

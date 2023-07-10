@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.proyecto_web.ing_web.repositorios.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,7 +38,11 @@ import com.proyecto_web.ing_web.entities.TipoProveedor;
 import com.proyecto_web.ing_web.entities.Unidad;
 import com.proyecto_web.ing_web.entities.Usuario;
 import com.proyecto_web.ing_web.entities.Factura;
+import com.proyecto_web.ing_web.entities.Ingreso;
 import com.proyecto_web.ing_web.entities.Vehiculo;
+import com.proyecto_web.ing_web.entities.almacen_productos;
+import com.proyecto_web.ing_web.entities.envio_productos;
+import com.proyecto_web.ing_web.entities.producto_unidades;
 import com.proyecto_web.ing_web.implementacion.EmpleadoServiceImpl;
 import com.proyecto_web.ing_web.servicios.ClienteService;
 import com.proyecto_web.ing_web.servicios.ConductorService;
@@ -52,9 +57,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/sistema")
 public class InicioController {
 
-    private ZoneId defaultZoneId = ZoneId.systemDefault();
-    private LocalDate localDate = LocalDate.of(2016, 8, 19);
-    private Date fecha = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+    private LocalDate localDate = LocalDate.now();
 
     @Autowired
     private ICargoRepo cargo_repo;
@@ -116,10 +119,24 @@ public class InicioController {
     @Autowired
     private IEnvioRepo envio_repo;
 
+    @Autowired
+    private IIngresoRepo ingreso_repo;
+
+    @Autowired
+    private IEnvio_productosRepo envio_prod_repo;
+
+    @Autowired
+    private IProveedorRepo proveedor_repo;
+
+    @Autowired
+    private IAlmacen_producto almacen_prod_repo;
+
+    @Autowired
+    private IProducto_unidad producto_unidad_repo;
+
     @GetMapping("/inicio")
     public String inicio(Model model, HttpSession session) {
         Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
-
         model.addAttribute("usuario_logeado", usu_logueado);
         return "sistema/inicio.html";
     }
@@ -241,8 +258,8 @@ public class InicioController {
             return "redirect:/sistema/agregar-cargo";
         }
 
-        cargo.setCreatedAt(fecha);
-        cargo.setUpdatedAt(fecha);
+        cargo.setCreatedAt(localDate);
+        cargo.setUpdatedAt(localDate);
 
         cargo_repo.save(cargo);
 
@@ -342,16 +359,16 @@ public class InicioController {
         Usuario new_usuario = new Usuario();
         new_usuario.setUsuario(persona.getCorreo());
         new_usuario.setPassword(persona.getCorreo());
-        persona.setCreatedAt(fecha);
-        persona.setUpdatedAt(fecha);
+        persona.setCreatedAt(localDate);
+        persona.setUpdatedAt(localDate);
         persona.setEstado(1);
         persona_service.guardar(persona);
 
         Persona find_last_persona = persona_service.findLastIdPersona(persona.getRUCDNI());
         if (find_last_persona != null) {
             empleado.setPersonaId(find_last_persona);
-            empleado.setCreatedAt(fecha);
-            empleado.setUpdatedAt(fecha);
+            empleado.setCreatedAt(localDate);
+            empleado.setUpdatedAt(localDate);
 
             empleado_service.guardar(empleado);
             usuario_service.guardar(new_usuario);
@@ -407,8 +424,8 @@ public class InicioController {
                 return "redirect:/sistema/agregar-clientes";
             }
 
-            persona.setCreatedAt(fecha);
-            persona.setUpdatedAt(fecha);
+            persona.setCreatedAt(localDate);
+            persona.setUpdatedAt(localDate);
             persona.setEstado(1);
             persona_service.guardar(persona);
 
@@ -418,8 +435,8 @@ public class InicioController {
             if (find_last_persona != null) {
                 cliente.setEmpleadoId(find_empleado);
                 cliente.setPersonaId(find_last_persona);
-                cliente.setCreatedAt(fecha);
-                cliente.setUpdatedAt(fecha);
+                cliente.setCreatedAt(localDate);
+                cliente.setUpdatedAt(localDate);
                 cliente_service.guardar(cliente);
                 redirectAttrs
                         .addFlashAttribute("mensaje", "Agregado correctamente")
@@ -571,8 +588,8 @@ public class InicioController {
                 return "redirect:/sistema/agregar-proveedor";
             }
 
-            persona.setCreatedAt(fecha);
-            persona.setUpdatedAt(fecha);
+            persona.setCreatedAt(localDate);
+            persona.setUpdatedAt(localDate);
             persona.setEstado(1);
             persona_service.guardar(persona);
 
@@ -582,8 +599,8 @@ public class InicioController {
             if (find_last_persona != null) {
                 proveedor.setEmpleadoId(find_empleado);
                 proveedor.setPersonaId(find_last_persona);
-                proveedor.setCreatedAt(fecha);
-                proveedor.setUpdatedAt(fecha);
+                proveedor.setCreatedAt(localDate);
+                proveedor.setUpdatedAt(localDate);
                 proveedor_service.guardar(proveedor);
                 redirectAttrs
                         .addFlashAttribute("mensaje", "Agregado correctamente")
@@ -640,8 +657,8 @@ public class InicioController {
             Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
             System.out.print("Inside try: " + find_empleado.getPersonaId().getCorreo());
             almacen.setEstado(true);
-            almacen.setCreatedAt(fecha);
-            almacen.setUpdatedAt(fecha);
+            almacen.setCreatedAt(localDate);
+            almacen.setUpdatedAt(localDate);
             almacen.setEmpleadoId(find_empleado);
             almacen_repo.save(almacen);
             redirectAttrs
@@ -752,8 +769,8 @@ public class InicioController {
             }
             System.out.println("First conditional passed");
 
-            persona.setCreatedAt(fecha);
-            persona.setUpdatedAt(fecha);
+            persona.setCreatedAt(localDate);
+            persona.setUpdatedAt(localDate);
             persona.setEstado(1);
             persona_service.guardar(persona);
 
@@ -762,8 +779,8 @@ public class InicioController {
 
 
             if (find_last_persona != null) {
-                conductor.setCreatedAt(fecha);
-                conductor.setUpdatedAt(fecha);
+                conductor.setCreatedAt(localDate);
+                conductor.setUpdatedAt(localDate);
                 if (!(usu_logueado.getUsuario() == "admin@gmail.com")) {
                     Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
                     conductor.setEmpleadoId(find_empleado);
@@ -825,8 +842,8 @@ public class InicioController {
         try {
             Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
             Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
-            vehiculo.setCreatedAt(fecha);
-            vehiculo.setUpdatedAt(fecha);
+            vehiculo.setCreatedAt(localDate);
+            vehiculo.setUpdatedAt(localDate);
             vehiculo.setEmpleadoId(find_empleado);
             vehiculo_repo.save(vehiculo);
             redirectAttrs
@@ -925,8 +942,8 @@ public class InicioController {
         try {
             Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
             Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
-            unidad.setCreatedAt(fecha);
-            unidad.setUpdatedAt(fecha);
+            unidad.setCreatedAt(localDate);
+            unidad.setUpdatedAt(localDate);
             unidad.setEmpleadoId(find_empleado);
             unidad_repo.save(unidad);
             redirectAttrs
@@ -1022,8 +1039,8 @@ public class InicioController {
         try {
             Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
             Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
-            categoria.setCreatedAt(fecha);
-            categoria.setUpdatedAt(fecha);
+            categoria.setCreatedAt(localDate);
+            categoria.setUpdatedAt(localDate);
             categoria.setEmpleadoId(find_empleado);
             categoria_repo.save(categoria);
             redirectAttrs
@@ -1121,8 +1138,8 @@ public class InicioController {
         try {
             Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
             Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
-            producto.setCreatedAt(fecha);
-            producto.setUpdatedAt(fecha);
+            producto.setCreatedAt(localDate);
+            producto.setUpdatedAt(localDate);
             producto.setEmpleadoId(find_empleado);
             producto.setEstado(true);
             producto_repo.save(producto);
@@ -1228,8 +1245,8 @@ public class InicioController {
         try {
             Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
             Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
-            ruta.setCreatedAt(fecha);
-            ruta.setUpdatedAt(fecha);
+            ruta.setCreatedAt(localDate);
+            ruta.setUpdatedAt(localDate);
             ruta.setEmpleadoId(find_empleado);
             ruta_repo.save(ruta);
             redirectAttrs
@@ -1300,23 +1317,126 @@ public class InicioController {
         return "redirect:/sistema/lista-ruta";
     }
 
+    //------------------------------------------------------------
+
+    //--------------------------------INGRESOS------------------------------
+    @GetMapping("/lista-ingresos")
+    public String ver_ingresos(Model model){
+        List<Ingreso> lista_ingresos = ingreso_repo.findAll();
+        model.addAttribute("ingresos", lista_ingresos);
+        return "sistema/ingresos/lista_ingresos";
+    }
+
+    @GetMapping("/ver-agregar-ingreso")
+    public String ver_agregar_ingreso(Model model){
+        Ingreso new_ingreso = new Ingreso();
+        List<Producto> lista_productos = producto_repo.findAll();
+        List<Proveedor> lista_proveedores = proveedor_service.listaProveedores();
+        List<Unidad> lista_unidades = unidad_repo.findAll();
+        List<Almacen> lista_almacenes = almacen_repo.findAll();
+
+        model.addAttribute("ingreso", new_ingreso);
+        model.addAttribute("productos", lista_productos);
+        model.addAttribute("proveedores", lista_proveedores);
+        model.addAttribute("unidades", lista_unidades);
+        model.addAttribute("almacenes", lista_almacenes);
+        return "sistema/ingresos/agregar_ingreso";
+    }
+
+    @PostMapping("/agregar-ingreso")
+    public String guardar_ingreso(
+                @ModelAttribute("ingreso") Ingreso ingreso,
+                @RequestParam("codigo[]") Integer[] codigo,
+                @RequestParam("prod_id[]") Integer[] prod_id,
+                @RequestParam("alm_id[]") Integer[] alm_id,
+                @RequestParam("prov_id[]") Integer[] prov_id,
+                @RequestParam("uni_id[]") Integer[] uni_id,
+                @RequestParam("cantidad[]") Integer[] cantidad,
+                @RequestParam("descripcion[]") String[] descripcion,
+                BindingResult bindingResult,
+                RedirectAttributes redirectAttrs,
+                HttpSession session){
+            if (bindingResult.hasErrors()) {
+                redirectAttrs
+                        .addFlashAttribute("mensaje", bindingResult)
+                        .addFlashAttribute("clase", "warning");
+                return "redirect:/sistema/agregar-ingreso";
+            }
+            try {
+                Ingreso new_ingreso = new Ingreso();
+                new_ingreso.setCodigo(codigo[0]);
+                new_ingreso.setDescripcion(ingreso.getDescripcion());
+                new_ingreso.setCreatedAt(localDate);
+                new_ingreso.setUpdatedAt(localDate);
+                ingreso_repo.save(new_ingreso);
+
+
+                Usuario usu_logueado = (Usuario) session.getAttribute("usuariosession");
+                Empleado find_empleado = empleado_dao.findByCorreo(usu_logueado.getUsuario());
+                for (int i = 0; i < prod_id.length; i++) {
+                    Optional<Producto> find_producto = producto_repo.findById(prod_id[i]);
+                    Optional<Almacen> find_almacen = almacen_repo.findById(alm_id[i]);
+                    Optional<Proveedor> find_proveedor = proveedor_repo.findById(prov_id[i]);
+                    Optional<Unidad> find_unidad = unidad_repo.findById(uni_id[i]);
+                    
+                    almacen_productos new_almacen_prod = new almacen_productos();
+                    new_almacen_prod.setCodigo(codigo[i]);
+                    new_almacen_prod.setStock(cantidad[i]);
+                    new_almacen_prod.setEmpleadoId(find_empleado);
+                    new_almacen_prod.setProductoId(find_producto.get());
+                    new_almacen_prod.setAlmacenId(find_almacen.get());
+                    new_almacen_prod.setProveedorId(find_proveedor.get());
+                    new_almacen_prod.setCreatedAt(localDate);
+                    new_almacen_prod.setUpdatedAt(localDate);
+                    almacen_prod_repo.save(new_almacen_prod);
+
+                    producto_unidades new_prod_unidad = new producto_unidades();
+                    new_prod_unidad.setProductoId(find_producto.get());
+                    new_prod_unidad.setUnidadId(find_unidad.get());
+                    new_prod_unidad.setDescripcion(descripcion[i]);
+                    new_prod_unidad.setCreatedAt(localDate);
+                    new_prod_unidad.setUpdatedAt(localDate);
+                    producto_unidad_repo.save(new_prod_unidad);
+                    
+                }
+                redirectAttrs
+                    .addFlashAttribute("mensaje", "Agregado correctamente")
+                    .addFlashAttribute("clase", "success");
+
+                return "redirect:/sistema/lista-ingresos";
+            } catch (Exception e) {
+                redirectAttrs
+                    .addFlashAttribute("mensaje", e)
+                    .addFlashAttribute("clase", "warning");
+
+                return "redirect:/sistema/ver-agregar-ingreso";
+            }
+                
+
+    }
+
     //----------REGISTRO ENVIO -------------------------------------
     @GetMapping("/registrar-envio")
     public String showregistrarEnvio(Model model) {
         try {
             Envio nuevo_envio = new Envio();
             List<Cliente> clientes = cliente_repo.findAll();
-            List<Ruta> rutas = ruta_repo.findAll();
             List<Vehiculo> vehiculos = vehiculo_repo.findAll();
             List<Producto> productos = producto_repo.findAll();
             List<Conductor> conductores = conductor_repo.findAll();
+            List<Ingreso> lista_ingresos = ingreso_repo.findAll();
+            List<Unidad> lista_unidades = unidad_repo.findAll();
+            List<Almacen> lista_almacenes = almacen_repo.findAll();
+        
 
             model.addAttribute("envio", nuevo_envio);
             model.addAttribute("clientes", clientes);
-            model.addAttribute("rutas", rutas);
             model.addAttribute("vehiculos", vehiculos);
             model.addAttribute("productos", productos);
             model.addAttribute("conductores", conductores);
+            model.addAttribute("ingresos", lista_ingresos);
+            model.addAttribute("unidades", lista_unidades);
+            model.addAttribute("almacenes", lista_almacenes);
 
             return "sistema/envios/registro_envio";
         } catch (Exception e) {
@@ -1328,6 +1448,9 @@ public class InicioController {
     @PostMapping("/definir-envio")
     public String registrarEnvio(
             @ModelAttribute("envio") Envio envio,
+            @RequestParam("prod_id[]") Integer[] prod_id, 
+            @RequestParam("cantidad[]") Integer[] cantidad,
+            @RequestParam("precio[]") Double[] precio,
             BindingResult bindingResult,
             RedirectAttributes redirectAttrs) {
         if (bindingResult.hasErrors()) {
@@ -1338,10 +1461,22 @@ public class InicioController {
         }
         try {
             envio.setFecha_recogida(localDate);
-            envio.setCreatedAt(fecha);
-            envio.setUpdatedAt(fecha);
+            envio.setCreatedAt(localDate);
+            envio.setUpdatedAt(localDate);
             envio.setEstado(true);
             envio_repo.save(envio);
+
+            for (int i = 0; i < prod_id.length; i++) {
+                Optional<Producto> find_producto = producto_repo.findById(prod_id[i]);
+                envio_productos nuevo_envio_prod = new envio_productos();
+                nuevo_envio_prod.setEnvioId(envio);
+                nuevo_envio_prod.setProductoId(find_producto.get());
+                nuevo_envio_prod.setCantidad(cantidad[i]);
+                nuevo_envio_prod.setPrecio(precio[i]);
+                nuevo_envio_prod.setCreatedAt(localDate);
+                nuevo_envio_prod.setUpdatedAt(localDate);
+                envio_prod_repo.save(nuevo_envio_prod);
+            }
             redirectAttrs
                     .addFlashAttribute("mensaje", "Agregado correctamente")
                     .addFlashAttribute("clase", "success");
@@ -1384,8 +1519,8 @@ public class InicioController {
             return "redirect:/sistema/listar-factura";
         }
         try {
-            factura.setCreatedAt(fecha);
-            factura.setUpdatedAt(fecha);
+            factura.setCreatedAt(localDate);
+            factura.setUpdatedAt(localDate);
             factura_repo.save(factura);
             redirectAttrs
                     .addFlashAttribute("mensaje", "Agregada correctamente")

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/nav_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <title>Nuevo Cargo</title>
+    <script type="text/javascript" th:src="@{/js/ingreso.js}"></script>
+    <style>
+        div .row{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="contenido">
+        <div class="contenido-clientes">
+            <div class="row">
+                <div class="col-10">
+                    <form th:action="@{'/sistema/agregar-ingreso'}" method="post">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="">Descripcion</label>
+                                <input class="form-control" th:field="${ingreso.descripcion}" type="text" name="ingreso_descripcion" id="ingreso_descripcion" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <label for="">Codigo Producto</label>
+                            </div>
+                            <div class="col-2">
+                                <input class="form-control" type="text" name="ingreso_codigo_prod" id="ingreso_codigo_prod" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 align-items-end">
+                                <h5>Producto</h5>
+                                <select class="form-control" name="producto_ingreso" id="producto_ingreso">
+                                    <option th:each="prod : ${productos}" th:text="${prod.nombre}" th:value="${prod.id}"></option>
+                                </select>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <h5>Proveedor</h5>
+                                <select class="form-control" name="proveedor_ingreso" id="proveedor_ingreso">
+                                    <option th:each="prov : ${proveedores}" th:text="${prov.getPersonaId().getApellidos()+' '+prov.getPersonaId().getNombres()}" th:value="${prov.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 align-items-end">
+                                <h5>Unidad</h5>
+                                <select class="form-control" name="unidad_ingreso" id="unidad_ingreso">
+                                    <option th:each="uni : ${unidades}" th:text="${uni.nombre}" th:value="${uni.id}"></option>
+                                </select>
+                            </div>
+                            <div class="col-4 align-items-end">
+                                <h5>Almacen</h5>
+                                <select class="form-control" name="almacen_ingreso" id="almacen_ingreso">
+                                    <option th:each="alm : ${almacenes}" th:text="${alm.nombre}" th:value="${alm.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="">Cantidad</label>
+                                <input class="form-control" type="number" name="ingreso_stock" id="ingreso_stock" value="">
+                            </div>
+                            <div class="col-4">
+                                <label for="">Descripcion</label>
+                                <input class="form-control" type="text" name="ingreso_desc" id="ingreso_desc" value="">
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-4">
+                                <button type="button" class="btn btn-primary" onclick="addIngresoToTable();">Agregar</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h3>Ingresos</h3>
+                            <table id="tableIngreso" class="table table-light">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Codigo</th>
+                                        <th>Producto</th>
+                                        <th>Almacen</th>
+                                        <th>Proveedor</th>
+                                        <th>Unidad</th>
+                                        <th>Cantidad</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <button class="btn btn-success" >Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

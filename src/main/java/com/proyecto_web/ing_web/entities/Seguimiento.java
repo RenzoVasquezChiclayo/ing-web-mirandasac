@@ -1,4 +1,5 @@
 package com.proyecto_web.ing_web.entities;
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -27,10 +28,10 @@ public class Seguimiento {
     private String ubicacion;
 
     @Column(name = "createdAt", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updatedAt", nullable = false)
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
     @ManyToOne
     private Envio envioId;
@@ -41,8 +42,8 @@ public class Seguimiento {
     public Seguimiento() {
     }
 
-    public Seguimiento(Integer id, String observaciones, String descripcion, String ubicacion, Date createdAt,
-            Date updatedAt, Envio envioId, Empleado empleadoId) {
+    public Seguimiento(Integer id, String observaciones, String descripcion, String ubicacion, LocalDate createdAt,
+    LocalDate updatedAt, Envio envioId, Empleado empleadoId) {
         this.id = id;
         this.observaciones = observaciones;
         this.descripcion = descripcion;
@@ -85,19 +86,19 @@ public class Seguimiento {
         this.ubicacion = ubicacion;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 

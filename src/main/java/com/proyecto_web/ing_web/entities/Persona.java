@@ -1,5 +1,6 @@
 package com.proyecto_web.ing_web.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -58,17 +59,17 @@ public class Persona {
     private Integer estado;
 
     @Column(name = "createdAt", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updatedAt", nullable = false)
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
     public Persona() {
     }
 
     public Persona(Integer id, String RUCDNI, String nombres, String apellidos, String domicilio_fiscal,
             String distrito, String provincia, String departamento, String ubigeo, String pais, String telefono,
-            String contacto, String correo, Integer estado, Date createdAt, Date updatedAt) {
+            String contacto, String correo, Integer estado, LocalDate createdAt, LocalDate updatedAt) {
         this.id = id;
         this.RUCDNI = RUCDNI;
         this.nombres = nombres;
@@ -199,19 +200,19 @@ public class Persona {
         this.estado = estado;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 

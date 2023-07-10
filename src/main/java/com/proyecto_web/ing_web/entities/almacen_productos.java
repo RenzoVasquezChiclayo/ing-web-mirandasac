@@ -1,5 +1,6 @@
 package com.proyecto_web.ing_web.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -19,17 +20,18 @@ public class almacen_productos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "codigo")
+    private Integer codigo;
+    
     @Column(name = "stock", nullable = false)
     private Integer stock;
 
-    @Column(name = "precio", nullable = false)
-    private Double precio;
 
     @Column(name = "createdAt", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updatedAt", nullable = false)
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
     @ManyToOne
     private Empleado empleadoId;
@@ -46,11 +48,11 @@ public class almacen_productos {
     public almacen_productos() {
     }
 
-    public almacen_productos(Integer id, Integer stock, Double precio, Date createdAt, Date updatedAt,
+    public almacen_productos(Integer id, Integer codigo, Integer stock, LocalDate createdAt, LocalDate updatedAt,
             Empleado empleadoId, Proveedor proveedorId, Producto productoId, Almacen almacenId) {
         this.id = id;
+        this.codigo = codigo;
         this.stock = stock;
-        this.precio = precio;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.empleadoId = empleadoId;
@@ -67,6 +69,14 @@ public class almacen_productos {
         this.id = id;
     }
 
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
+
     public Integer getStock() {
         return stock;
     }
@@ -75,27 +85,19 @@ public class almacen_productos {
         this.stock = stock;
     }
 
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -130,5 +132,7 @@ public class almacen_productos {
     public void setAlmacenId(Almacen almacenId) {
         this.almacenId = almacenId;
     }
+
+    
 
 }

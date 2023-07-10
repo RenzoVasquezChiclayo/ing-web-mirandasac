@@ -39,7 +39,8 @@
                     </a>
                     <span class="tooltip">Perfil</span>
                 </li>
-                <li>
+                <!-- th:if="${#strings.contains(#authentication.principal.authorities, 'ROLE_ADMIN')}" -->
+                <li >
                     <a th:href="@{'/sistema/lista-tipo-cliente'}">
                         <i class='bx bxs-report'></i>
                         <span class="links_name">Tipo Cliente</span>
@@ -129,6 +130,13 @@
                         <span class="links_name">Ruta</span>
                     </a>
                     <span class="tooltip">Ruta</span>
+                </li>
+                <li>
+                    <a th:href="@{'/sistema/lista-ingresos'}">
+                      <i class='bx bxs-report' ></i>
+                        <span class="links_name">Ingresos</span>
+                    </a>
+                    <span class="tooltip">Ingresos</span>
                 </li>
                 <li>
                     <a th:href="@{'/sistema/registrar-envio'}">
